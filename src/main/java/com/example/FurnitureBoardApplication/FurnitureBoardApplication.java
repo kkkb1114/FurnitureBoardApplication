@@ -1,0 +1,13 @@
+package com.example.FurnitureBoardApplication;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class FurnitureBoardApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(FurnitureBoardApplication.class, args);
+	}
+
+}
