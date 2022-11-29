@@ -37,7 +37,7 @@ public class MemberRepository {
 
     // 입력 받은 name과 동일한 회원 전부 List로 반환
     public List<Member> findAllName(String name){
-        return entityManager.createQuery("select m from Member m where name = :name", Member.class)
+        return entityManager.createQuery("select m from Member m where m.nickName = :name", Member.class)
                 .setParameter("name", name)
                 .getResultList();
     }

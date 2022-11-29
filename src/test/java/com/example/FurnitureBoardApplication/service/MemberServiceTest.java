@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 //@ExtendWith(SpringExtension.class)
@@ -49,7 +51,7 @@ class MemberServiceTest {
 
         // when
         memberService.memberJoin(member1);
-        try{
+        try {
             memberService.memberJoin(member2);
         } catch (IllegalStateException e) {
             e.printStackTrace();
@@ -61,9 +63,43 @@ class MemberServiceTest {
 
     @Test
     void memberFindAll() {
+        // given
+        Member member1 = Member.createMember("kikkb1114@naver.com", "rlarlqja5!", "kkkb1114", "서울시 동작구 사당3동");
+        Member member2 = Member.createMember("aaa@naver.com", "aaa1", "aaa12", "aaa13");
+        memberService.memberJoin(member1);
+        memberService.memberJoin(member2);
+
+        // when
+        List<Member> memberList = memberService.memberFindAll();
+
+        //then
+        for (Member member : memberList) {
+            System.out.println("Test_memberFindAll: " + member.getId());
+            System.out.println("Test_memberFindAll: " + member.getEmail());
+            System.out.println("Test_memberFindAll: " + member.getPassword());
+            System.out.println("Test_memberFindAll: " + member.getNickName());
+            System.out.println("Test_memberFindAll: " + member.getAddress());
+        }
     }
 
     @Test
     void memberFindOne() {
+        // given
+        Member member1 = Member.createMember("kikkb1114@naver.com", "rlarlqja5!", "kkkb1114", "서울시 동작구 사당3동");
+        Member member2 = Member.createMember("aaa@naver.com", "aaa1", "aaa12", "aaa13");
+        memberService.memberJoin(member1);
+        memberService.memberJoin(member2);
+
+        // when
+        List<Member> memberList = memberService.memberFindOne("kkkb1114");
+
+        //then
+        for (Member member : memberList) {
+            System.out.println("Test_memberFindOne: " + member.getId());
+            System.out.println("Test_memberFindOne: " + member.getEmail());
+            System.out.println("Test_memberFindOne: " + member.getPassword());
+            System.out.println("Test_memberFindOne: " + member.getNickName());
+            System.out.println("Test_memberFindOne: " + member.getAddress());
+        }
     }
 }
