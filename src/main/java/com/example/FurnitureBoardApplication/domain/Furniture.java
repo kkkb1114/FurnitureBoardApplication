@@ -17,4 +17,5 @@ public class Furniture {
     private String name; // 가구 이름
     private String price; // 가구 가격
     private String count; // 가구 재고 수량
+    private String kind; // 가구 종류
 }

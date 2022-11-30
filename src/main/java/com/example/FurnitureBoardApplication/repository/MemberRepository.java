@@ -20,8 +20,13 @@ public class MemberRepository {
     private final EntityManager entityManager;
 
     // 회원 정보 저장
+    // 들어온 member 객체의 id값이 null이면 회원가입, null이 아니면 회원 정보 수정
     public void save(Member member){
-        entityManager.persist(member);
+        if (member.getId() == null){
+            entityManager.persist(member);
+        }else {
+            entityManager.merge(member);
+        }
     }
 
     // id(pk) 기준으로 회원 찾기
