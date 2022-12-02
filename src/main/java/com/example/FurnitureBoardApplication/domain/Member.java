@@ -2,8 +2,11 @@ package com.example.FurnitureBoardApplication.domain;
 
 import lombok.Getter;
 import org.aspectj.weaver.ast.Or;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,11 +16,14 @@ public class Member extends BaseTimeEntity{
 
     @Id @GeneratedValue
     @Column(name = "member_id")
-    private Long id;
-    private String email;
-    private String password;
-    private String nickName;
-    private String address;
+    private Long id; // pk
+    private String email; // 계정 메일
+    private String password; // 비밀번호
+    private String nickName; // 닉네임
+    private String address; // 주소
+    private String detailedAddress; // 상세 주소
+    private Long hidden; // 회원 탈퇴 여부
+    //private Address address; // 주소 (일단 이건 필요 없을 것 같아서 주석 처리)
     // 잠시 order 클래스는 완성 전이라 빼고 테스트
     /*@OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Order> orderList = new ArrayList<>();
@@ -26,25 +32,17 @@ public class Member extends BaseTimeEntity{
         orderList.add(order);
     }*/
 
+    protected Member(){}
+
     //==생성 메서드==//
-    /*public static Member createMember(String email, String password, String nickName, String address, Order... orders){
+    public static Member createMember(String email, String password, String nickName, String address, String detailedAddress, Long hidden){
         Member member = new Member();
         member.email = email;
         member.password = password;
         member.nickName = nickName;
         member.address = address;
-        for (Order order : orders){
-            member.addOrderList(order);
-        }
-        return member;
-    }*/
-    // 잠시 order 클래스는 완성 전이라 빼고 테스트
-    public static Member createMember(String email, String password, String nickName, String address){
-        Member member = new Member();
-        member.email = email;
-        member.password = password;
-        member.nickName = nickName;
-        member.address = address;
+        member.detailedAddress = detailedAddress;
+        member.hidden = hidden;
         return member;
     }
 }

@@ -33,9 +33,23 @@ public class MemberService {
     public List<Member> memberFindAll(){
         return memberRepository.findAll();
     }
-    // 회원 조건 조회
+    // 회원 조건 조회(닉네임)
     @Transactional(readOnly = true)
-    public List<Member> memberFindOne(String name){
+    public List<Member> memberFindName(String name){
         return memberRepository.findAllName(name);
+    }
+    // 회원 조건 조회(이메일)
+    @Transactional(readOnly = true)
+    public Member memberFindOneEmail(String email){
+        return memberRepository.findOneEmail(email);
+    }
+    // 회원 조건 조회(이메일)
+    @Transactional(readOnly = true)
+    public Member memberLogin(String email){
+        if (memberRepository.findOneEmail(email) != null){
+            return memberRepository.findOneEmail(email);
+        }else {
+            return null;
+        }
     }
 }

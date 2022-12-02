@@ -1,5 +1,6 @@
 package com.example.FurnitureBoardApplication.service;
 
+import com.example.FurnitureBoardApplication.domain.Address;
 import com.example.FurnitureBoardApplication.domain.Member;
 import com.example.FurnitureBoardApplication.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
@@ -34,7 +35,7 @@ class MemberServiceTest {
     @Test
     void memberJoin() {
         // given
-        Member member1 = Member.createMember("kikkb1114@naver.com", "rlarlqja5!", "kkkb1114", "서울시 동작구 사당3동");
+        Member member1 = Member.createMember("kikkb1114@naver.com", "rlarlqja5!", "kkkb1114", "주소", "상세 주소", 0L);
 
         // when
         Long id = memberService.memberJoin(member1);
@@ -46,8 +47,8 @@ class MemberServiceTest {
     @Test
     void validateDuplicateMember() {
         // given
-        Member member1 = Member.createMember("kikkb1114@naver.com", "rlarlqja5!", "kkkb1114", "서울시 동작구 사당3동");
-        Member member2 = Member.createMember("aaa@naver.com", "aaa1", "kkkb1114", "aaa13");
+        Member member1 = Member.createMember("kikkb1114@naver.com", "rlarlqja5!", "kkkb1114", "주소", "상세 주소", 0L);
+        Member member2 = Member.createMember("aaa@naver.com", "aaa1", "kkkb1114", "주소","상세 주소", 0L);
 
         // when
         memberService.memberJoin(member1);
@@ -64,8 +65,8 @@ class MemberServiceTest {
     @Test
     void memberFindAll() {
         // given
-        Member member1 = Member.createMember("kikkb1114@naver.com", "rlarlqja5!", "kkkb1114", "서울시 동작구 사당3동");
-        Member member2 = Member.createMember("aaa@naver.com", "aaa1", "aaa12", "aaa13");
+        Member member1 = Member.createMember("kikkb1114@naver.com", "rlarlqja5!", "kkkb1114", "주소", "상세 주소", 0L);
+        Member member2 = Member.createMember("aaa@naver.com", "aaa1", "aaa12", "주소", "상세 주소", 0L);
         memberService.memberJoin(member1);
         memberService.memberJoin(member2);
 
@@ -85,8 +86,8 @@ class MemberServiceTest {
     @Test
     void memberFindOne() {
         // given
-        Member member1 = Member.createMember("kikkb1114@naver.com", "rlarlqja5!", "kkkb1114", "서울시 동작구 사당3동");
-        Member member2 = Member.createMember("aaa@naver.com", "aaa1", "aaa12", "aaa13");
+        Member member1 = Member.createMember("kikkb1114@naver.com", "rlarlqja5!", "kkkb1114", "주소", "상세 주소", 0L);
+        Member member2 = Member.createMember("aaa@naver.com", "aaa1", "aaa12", "주소", "상세 주소", 0L);
         memberService.memberJoin(member1);
         memberService.memberJoin(member2);
 

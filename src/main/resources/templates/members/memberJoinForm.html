@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<style>
+.fieldError {
+border-color: #bd2130;
+}
+</style>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+    <div class="bg-light">
+        <form class="row g-3" action="/members/Join" th:object="${memberForm}" method="post">
+            <div class="col-md-6">
+                <label th:for="email" for="inputEmail" class="form-label">이메일</label>
+                <input type="email" th:field="*{email}" class="form-control" placeholder="이메일을 입력해주세요."
+                       th:class="${#fields.hasErrors('email')}? 'form-control fieldError' : 'form-control'"
+                       id="inputEmail">
+                <p style="color:red;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</p>
+            </div>
+            <div class="col-md-6">
+                <label th:for="password" for="inputPassword" class="form-label">비밀번호</label>
+                <input type="text" th:field="*{password}" class="form-control" placeholder="비밀번호를 입력해주세요."
+                       th:class="${#fields.hasErrors('password')}? 'form-control fieldError' : 'form-control'"
+                       id="inputPassword">
+                <p style="color:red;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</p>
+            </div>
+            <div class="col-md-6">
+                <label th:for="nickName" for="inputNickName" class="form-label">닉네임</label>
+                <input type="text" th:field="*{nickName}" class="form-control" placeholder="닉네임을 입력해주세요."
+                       th:class="${#fields.hasErrors('nickName')}? 'form-control fieldError' : 'form-control'"
+                       id="inputNickName">
+                <p style="color:red;" th:if="${#fields.hasErrors('nickName')}" th:errors="*{nickName}">Incorrect nickName</p>
+            </div>
+            <div class="col-md-6">
+                <label th:for="address" for="inputAddress" class="form-label">주소</label>
+                <input th:field="*{address}" type="text" class="form-control" id="inputAddress" placeholder="주소를 입력해주세요."
+                       th:class="${#fields.hasErrors('address')}? 'form-control fieldError' : 'form-control'">
+                <p style="color:red;" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Incorrect address</p>
+            </div>
+            <div class="col-12">
+                <label th:for="detailedAddress" for="inputDetailedAddress" class="form-label">상세주소</label>
+                <input th:field="*{detailedAddress}" type="text" class="form-control" id="inputDetailedAddress" placeholder="상세 주소를 입력해주세요.">
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">회원 가입</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

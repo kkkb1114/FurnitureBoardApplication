@@ -30,4 +30,6 @@ public class Order {
 
     @CreatedDate // Entity가 최초 저장될때 시간 자동 저장
     private LocalDateTime createdDate; // 주문 시간
+
+    private Double hidden; // 삭제 여부
 }

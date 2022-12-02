@@ -21,12 +21,13 @@ public class MemberRepository {
 
     // 회원 정보 저장
     // 들어온 member 객체의 id값이 null이면 회원가입, null이 아니면 회원 정보 수정
-    public void save(Member member){
+    public Long save(Member member){
         if (member.getId() == null){
             entityManager.persist(member);
         }else {
             entityManager.merge(member);
         }
+        return member.getId();
     }
 
     // id(pk) 기준으로 회원 찾기
@@ -45,5 +46,12 @@ public class MemberRepository {
         return entityManager.createQuery("select m from Member m where m.nickName = :name", Member.class)
                 .setParameter("name", name)
                 .getResultList();
+    }
+
+    // 입력 받은 email과 동일한 회원 전부 List로 반환
+    public Member findOneEmail(String email){
+        return entityManager.createQuery("select m from Member m wher`e m.email = :email", Member.class)
+                .setParameter("email", email)
+                .getSingleResult();
     }
 }
