@@ -19,26 +19,31 @@ border-color: #bd2130;
             </div>
             <br>
             <div class="col-12" style="word-break:break-all; word-wrap:break-word;">
-                <input type="text" th:field="*{password}" class="form-control" placeholder="비밀번호"
+                <input type="password" th:field="*{password}" class="form-control" placeholder="비밀번호"
                        th:class="${#fields.hasErrors('password')}? 'form-control fieldError' : 'form-control'"
                        id="inputPassword">
                 <p style="color:red;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</p>
-                <p style="color:red;" th:if="${#fields.hasErrors('password')}" th:errors="ㅁㅁㅁㅁㅁ"></p>
+            </div>
+            <div class="col-12" th:if="${#fields.hasGlobalErrors()}">
+                <p style="color:red;" class="field-error" th:each="erorr : ${#fields.globalErrors()}" th:text="${erorr}">전체 오류 메시지</p>
+            </div>
+            <!--<div class="col-12" th:if="${#fields.hasGlobalErrors()}">
+                <input type="checkbox" name="autoLogin"/>
+            </div>-->
+            <div class="col-auto" style="word-break:break-all;">
+                <a style="color: #9797BA; text-decoration: none;" href="/members/Join" class="form-label">회원 가입</a>
             </div>
             <div class="col-auto" style="word-break:break-all;">
                 <a style="color: #9797BA; text-decoration: none;" href="#" class="form-label">비밀번호 찾기</a>
-            </div>
-            <div class="col-auto" style="word-break:break-all;">
-                <a style="color: #9797BA; text-decoration: none;" href="/members/Join" class="form-label">회원 가입</a>
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary">로그인</button>
             </div>
             <div class="col-auto">
-                <button type="submit" class="btn btn-primary">구글 로그인</button>
+                <button type="button" class="btn btn-primary">구글 로그인</button>
             </div>
             <div class="col-auto">
-                <button type="submit" class="btn btn-primary">카카오 로그인</button>
+                <button type="button" class="btn btn-primary">카카오 로그인</button>
             </div>
         </form>
     </div>

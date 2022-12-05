@@ -33,6 +33,11 @@ public class MemberService {
     public List<Member> memberFindAll(){
         return memberRepository.findAll();
     }
+    // 회원 조건 조회(pk)
+    @Transactional(readOnly = true)
+    public Member findOneId(Long id){
+        return memberRepository.findOneId(id);
+    }
     // 회원 조건 조회(닉네임)
     @Transactional(readOnly = true)
     public List<Member> memberFindName(String name){
@@ -45,9 +50,9 @@ public class MemberService {
     }
     // 회원 조건 조회(이메일)
     @Transactional(readOnly = true)
-    public Member memberLogin(String email){
-        if (memberRepository.findOneEmail(email) != null){
-            return memberRepository.findOneEmail(email);
+    public Member memberLogin(String email, String password){
+        if (memberRepository.memberLogin(email, password) != null){
+            return memberRepository.memberLogin(email, password);
         }else {
             return null;
         }

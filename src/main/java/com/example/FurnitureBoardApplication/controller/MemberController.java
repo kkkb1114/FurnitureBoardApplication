@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -34,14 +36,17 @@ public class MemberController {
      */
     @PostMapping("/members/Join")
     public String memberJoin(@Valid MemberForm memberForm, BindingResult bindingResult) {
+        // 데이터중 하나라도 입력되지 않으면 경고
         if (bindingResult.hasErrors()) {
             return "members/memberJoinForm";
-        } else {
-            Member member = Member.createMember(memberForm.getEmail(), memberForm.getPassword(), memberForm.getNickName(),
-                    memberForm.getAddress(), memberForm.getDetailedAddress(), 0L);
-            memberService.memberJoin(member);
-            return "redirect:/";
         }
+
+        // 정상 회원 가입
+        Member member = Member.createMember(memberForm.getEmail(), memberForm.getPassword(), memberForm.getNickName(),
+                memberForm.getAddress(), memberForm.getDetailedAddress(), 0L);
+        memberService.memberJoin(member);
+        //return "redirect:/";
+        return "members/memberList";
     }
 
     /**
@@ -58,7 +63,7 @@ public class MemberController {
      * 로그인 페이지 이동
      */
     @GetMapping("/members/login")
-    public String memberLoginForm(Model model){
+    public String memberLoginForm(Model model) {
         model.addAttribute("loginForm", new LoginForm());
         return "members/loginForm";
     }
@@ -67,12 +72,23 @@ public class MemberController {
      * 로그인
      */
     @PostMapping("/members/login")
-    public String memberLogin(@ModelAttribute LoginForm loginForm, BindingResult bindingResult){
-        if (bindingResult.hasErrors() || memberService.memberLogin(loginForm.getEmail()) == null){
+    public String memberLogin(@Valid LoginForm loginForm, BindingResult bindingResult, HttpServletResponse httpServletResponse) {
+        // 아이디, 비밀번호 둘중 하나라도 입력되지 않으면 경고
+        if (bindingResult.hasErrors()) {
             return "members/loginForm";
-        }else {
-            //memberService.memberLogin(loginForm.getEmail());
-            return "redirect:/";
+        }
+
+        // 아이디 or 비밀번호가 일치한
+        if (memberService.memberLogin(loginForm.getEmail(), loginForm.getPassword()) != null) {
+            Member member = memberService.memberLogin(loginForm.getEmail(), loginForm.getPassword());
+            Cookie cookie = new Cookie("memberId", String.valueOf(member.getId()));
+            httpServletResponse.addCookie(cookie);
+            //return "redirect:/";
+            return "members/memberList";
+        } else {
+            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+            return "members/loginForm";
         }
     }
+
 }

@@ -50,8 +50,29 @@ public class MemberRepository {
 
     // 입력 받은 email과 동일한 회원 전부 List로 반환
     public Member findOneEmail(String email){
-        return entityManager.createQuery("select m from Member m wher`e m.email = :email", Member.class)
-                .setParameter("email", email)
-                .getSingleResult();
+        Member member = null;
+        try {
+            member = entityManager.createQuery("select m from Member m where m.email = :email", Member.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return member;
+    }
+
+    // 입력 받은 email과 동일한 회원 전부 List로 반환
+    public Member memberLogin(String email, String password){
+        Member member = null;
+        try {
+            member = entityManager.createQuery("select m from Member m " +
+                    "where m.email = :email and m.password = :password", Member.class)
+                    .setParameter("email", email)
+                    .setParameter("password", password)
+                    .getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return member;
     }
 }

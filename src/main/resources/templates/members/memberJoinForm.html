@@ -20,7 +20,7 @@ border-color: #bd2130;
             </div>
             <div class="col-md-6">
                 <label th:for="password" for="inputPassword" class="form-label">비밀번호</label>
-                <input type="text" th:field="*{password}" class="form-control" placeholder="비밀번호를 입력해주세요."
+                <input type="password" th:field="*{password}" class="form-control" placeholder="비밀번호를 입력해주세요."
                        th:class="${#fields.hasErrors('password')}? 'form-control fieldError' : 'form-control'"
                        id="inputPassword">
                 <p style="color:red;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</p>
