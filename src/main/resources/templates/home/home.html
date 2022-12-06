@@ -4,10 +4,10 @@
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+    <div style="background-color: white;" class="navbar navbar-expand-lg">
+        <h1 style="color: black;">메인 페이지</h1>
+    </div>
     <div>
-        <div style="background-color: white;" class="navbar navbar-expand-lg">
-            <h1 style="color: black;">회원 리스트</h1>
-        </div>
         <table class="table">
             <thead class="table-light">
             <tr>
@@ -28,17 +28,5 @@
         </table>
     </div>
 </div>
-<th:block layout:fragment="script">
-    <script th:inline="javascript">
-        /* <![CDATA[ */
-        window.onload = () => {
-          const message = [[ ${memberJoinSuccess} ]];
-          if (message) {
-            alert(message);
-          }
-        }
-        /* ]]> */
-      </script>
-</th:block>
 </body>
 </html>

@@ -35,7 +35,7 @@ public class MemberController {
      * 회원 가입 기능
      */
     @PostMapping("/members/Join")
-    public String memberJoin(@Valid MemberForm memberForm, BindingResult bindingResult) {
+    public String memberJoin(@Valid MemberForm memberForm, BindingResult bindingResult, Model model) {
         // 데이터중 하나라도 입력되지 않으면 경고
         if (bindingResult.hasErrors()) {
             return "members/memberJoinForm";
@@ -45,6 +45,7 @@ public class MemberController {
         Member member = Member.createMember(memberForm.getEmail(), memberForm.getPassword(), memberForm.getNickName(),
                 memberForm.getAddress(), memberForm.getDetailedAddress(), 0L);
         memberService.memberJoin(member);
+        model.addAttribute("memberJoinSuccess", "환영합니다.");
         //return "redirect:/";
         return "members/memberList";
     }

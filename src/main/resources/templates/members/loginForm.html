@@ -5,11 +5,21 @@
 .fieldError {
 border-color: #bd2130;
 }
+ $(document).ready(function() {
+        let message = "[[${msg}]]";
+        if (message != "") {
+            alert(message);
+        }else {
+        }
+    })
 </style>
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
-    <div class="bg-light">
+    <div style="background-color: white;" class="navbar navbar-expand-lg">
+        <h1 style="color: black;">로그인</h1>
+    </div>
+    <div class="bg-light" style="padding: 10px">
         <form class="row g-3" action="/members/login" th:object="${loginForm}" method="post">
             <div class="col-12" style="word-break:break-all; word-wrap:break-word;">
                 <input type="email" th:field="*{email}" class="form-control" placeholder="이메일"

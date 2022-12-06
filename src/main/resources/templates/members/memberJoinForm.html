@@ -9,7 +9,10 @@ border-color: #bd2130;
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
-    <div class="bg-light">
+    <div style="background-color: white;" class="navbar navbar-expand-lg">
+        <h1 style="color: black;">회원가입</h1>
+    </div>
+    <div class="bg-light" style="padding: 10px">
         <form class="row g-3" action="/members/Join" th:object="${memberForm}" method="post">
             <div class="col-md-6">
                 <label th:for="email" for="inputEmail" class="form-label">이메일</label>
