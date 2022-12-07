@@ -9,21 +9,34 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">홈</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            제품 보기
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">책상</a></li>
-                            <li><a class="dropdown-item" href="#">의자</a></li>
-                            <li><a class="dropdown-item" href="#">침대</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a th:if="${memberId == null}" href="/members/login" class="nav-link">로그인</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/members/login" class="nav-link">로그인</a>
+                        <a th:if="${memberId == 'memberId'}" href="/members/login" class="nav-link">내 정보</a>
                     </li>
+                    <li class="nav-item">
+                        <a th:if="${memberId == 'memberId'}" href="/members/login" class="nav-link">게시글 쓰기</a>
+                    </li>
+                    <div class="col-auto">
+                        <button th:if="${memberId == null}" type="button" class="btn btn-primary">구글 로그인</button>
+                    </div>
+                    <div class="col-auto">
+                        <button th:if="${memberId == null}" type="button" class="btn btn-primary">카카오 로그인</button>
+                    </div>
                 </ul>
                 <form class="d-flex" role="search">
+                    <div class="dropdown" style="padding: 0px 10px 0px 0px">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            전체
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">전체</a></li>
+                            <li><a class="dropdown-item" href="#">작성자</a></li>
+                            <li><a class="dropdown-item" href="#">제목</a></li>
+                            <li><a class="dropdown-item" href="#">내용</a></li>
+                        </ul>
+                    </div>
                     <input class="form-control me-2" type="search" placeholder="검색어 입력" aria-label="Search">
                     <button style="white-space:nowrap;" class="btn btn-outline-success" type="submit">검색</button>
                 </form>

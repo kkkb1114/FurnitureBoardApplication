@@ -22,7 +22,7 @@ class MemberRepositoryTest {
     @Test
     void save() {
         //given
-        Member member = Member.createMember("이메일", "비번", "닉네임", "주소", "상세 주소", 0L);
+        Member member = Member.createMember("이메일", "비번", "닉네임", "주소", "상세 주소", 0.0);
 
         //when
         Long id = memberRepository.save(member);
@@ -34,7 +34,7 @@ class MemberRepositoryTest {
     @Test
     void findOneId() {
         //given
-        Member member = Member.createMember("이메일", "비번", "닉네임", "주소", "상세 주소", 0L);
+        Member member = Member.createMember("이메일", "비번", "닉네임", "주소", "상세 주소", 0.0);
 
         //when
         Long id = memberRepository.save(member);
@@ -47,9 +47,9 @@ class MemberRepositoryTest {
     @Test
     void findAll() {
         //given
-        Member member1 = Member.createMember("이메일", "비번", "닉네임", "주소", "상세 주소", 0L);
-        Member member2 = Member.createMember("이메일", "비번", "닉네임", "주소", "상세 주소", 0L);
-        Member member3 = Member.createMember("이메일", "비번", "닉네임", "주소", "상세 주소", 0L);
+        Member member1 = Member.createMember("이메일", "비번", "닉네임", "주소", "상세 주소", 0.0);
+        Member member2 = Member.createMember("이메일", "비번", "닉네임", "주소", "상세 주소", 0.0);
+        Member member3 = Member.createMember("이메일", "비번", "닉네임", "주소", "상세 주소", 0.0);
 
         //when
         memberRepository.save(member1);
@@ -63,9 +63,9 @@ class MemberRepositoryTest {
     @Test
     void findAllName() {
         //given
-        Member member1 = Member.createMember("이메일", "비번", "닉네임1", "주소", "상세 주소", 0L);
-        Member member2 = Member.createMember("이메일", "비번", "닉네임1", "주소", "상세 주소", 0L);
-        Member member3 = Member.createMember("이메일", "비번", "닉네임2", "주소", "상세 주소", 0L);
+        Member member1 = Member.createMember("이메일", "비번", "닉네임1", "주소", "상세 주소", 0.0);
+        Member member2 = Member.createMember("이메일", "비번", "닉네임1", "주소", "상세 주소", 0.0);
+        Member member3 = Member.createMember("이메일", "비번", "닉네임2", "주소", "상세 주소", 0.0);
 
         //when
         memberRepository.save(member1);

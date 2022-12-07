@@ -30,12 +30,12 @@ public class FurnitureRepository {
                 .getResultList();
     }
     
-    // id(pk) 기준 가구 찾기
+    // id(pk) 기준 게시글 찾기
     public Furniture findId(Long id){
         return entityManager.find(Furniture.class, id);
     }
     
-    // 가구 종류와 일치한 가구 List로 반환
+    // 가구 종류와 일치한 게시글 List로 반환
     public List<Furniture> findAllKind(String kind){
         return entityManager.createQuery("select f from Furniture f where f.kind = :kind", Furniture.class)
                 .setParameter("kind", kind)

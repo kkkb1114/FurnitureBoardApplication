@@ -12,6 +12,8 @@ border-color: #bd2130;
         }else {
         }
     })
+
+
 </style>
 <body>
 <div class="container">
@@ -19,43 +21,38 @@ border-color: #bd2130;
     <div style="background-color: white;" class="navbar navbar-expand-lg">
         <h1 style="color: black;">로그인</h1>
     </div>
-    <div class="bg-light" style="padding: 10px">
-        <form class="row g-3" action="/members/login" th:object="${loginForm}" method="post">
-            <div class="col-12" style="word-break:break-all; word-wrap:break-word;">
-                <input type="email" th:field="*{email}" class="form-control" placeholder="이메일"
-                       th:class="${#fields.hasErrors('email')}? 'form-control fieldError' : 'form-control'"
-                       id="inputEmail">
-                <p style="color:red;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</p>
+    <form class="px-4 py-3" action="/members/login" th:object="${loginForm}" method="post">
+        <div class="mb-3">
+            <label for="exampleDropdownFormEmail1" class="form-label">이메일 주소</label>
+            <input type="email" th:field="*{email}" class="form-control" id="exampleDropdownFormEmail1"
+                   placeholder="email@example.com">
+            <p style="color:red;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</p>
+        </div>
+        <div class="mb-3">
+            <label for="exampleDropdownFormPassword1" class="form-label">비밀번호</label>
+            <input type="password" th:field="*{password}" class="form-control" id="exampleDropdownFormPassword1"
+                   placeholder="비밀번호">
+            <p style="color:red;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect
+                password</p>
+        </div>
+        <div class="col-12" th:if="${#fields.hasGlobalErrors()}">
+            <p style="color:red;" class="field-error" th:each="erorr : ${#fields.globalErrors()}" th:text="${erorr}">전체
+                오류 메시지</p>
+        </div>
+        <div class="mb-3">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="dropdownCheck">
+                <label class="form-check-label" for="dropdownCheck">
+                    로그인 상태 유지
+                </label>
             </div>
-            <br>
-            <div class="col-12" style="word-break:break-all; word-wrap:break-word;">
-                <input type="password" th:field="*{password}" class="form-control" placeholder="비밀번호"
-                       th:class="${#fields.hasErrors('password')}? 'form-control fieldError' : 'form-control'"
-                       id="inputPassword">
-                <p style="color:red;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</p>
-            </div>
-            <div class="col-12" th:if="${#fields.hasGlobalErrors()}">
-                <p style="color:red;" class="field-error" th:each="erorr : ${#fields.globalErrors()}" th:text="${erorr}">전체 오류 메시지</p>
-            </div>
-            <!--<div class="col-12" th:if="${#fields.hasGlobalErrors()}">
-                <input type="checkbox" name="autoLogin"/>
-            </div>-->
-            <div class="col-auto" style="word-break:break-all;">
-                <a style="color: #9797BA; text-decoration: none;" href="/members/Join" class="form-label">회원 가입</a>
-            </div>
-            <div class="col-auto" style="word-break:break-all;">
-                <a style="color: #9797BA; text-decoration: none;" href="#" class="form-label">비밀번호 찾기</a>
-            </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary">로그인</button>
-            </div>
-            <div class="col-auto">
-                <button type="button" class="btn btn-primary">구글 로그인</button>
-            </div>
-            <div class="col-auto">
-                <button type="button" class="btn btn-primary">카카오 로그인</button>
-            </div>
-        </form>
+        </div>
+        <button type="submit" class="btn btn-primary">로그인</button>
+    </form>
+    <div class="navbar navbar-expand-lg">
+        <a class="item col-auto" href="#">비밀번호 찾기 </a>
+        <a class="item col-auto" href="#">아이디 찾기 </a>
+        <a class="item col-auto" href="/members/Join">회원 가입</a>
     </div>
 </div>
 </body>

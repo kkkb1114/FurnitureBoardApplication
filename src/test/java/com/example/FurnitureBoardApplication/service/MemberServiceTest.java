@@ -35,7 +35,7 @@ class MemberServiceTest {
     @Test
     void memberJoin() {
         // given
-        Member member1 = Member.createMember("kikkb1114@naver.com", "rlarlqja5!", "kkkb1114", "주소", "상세 주소", 0L);
+        Member member1 = Member.createMember("kikkb1114@naver.com", "rlarlqja5!", "kkkb1114", "주소", "상세 주소", 0.0);
 
         // when
         Long id = memberService.memberJoin(member1);
@@ -47,8 +47,8 @@ class MemberServiceTest {
     @Test
     void validateDuplicateMember() {
         // given
-        Member member1 = Member.createMember("kikkb1114@naver.com", "rlarlqja5!", "kkkb1114", "주소", "상세 주소", 0L);
-        Member member2 = Member.createMember("aaa@naver.com", "aaa1", "kkkb1114", "주소","상세 주소", 0L);
+        Member member1 = Member.createMember("kikkb1114@naver.com", "rlarlqja5!", "kkkb1114", "주소", "상세 주소", 0.0);
+        Member member2 = Member.createMember("aaa@naver.com", "aaa1", "kkkb1114", "주소","상세 주소", 0.0);
 
         // when
         memberService.memberJoin(member1);
@@ -65,8 +65,8 @@ class MemberServiceTest {
     @Test
     void memberFindAll() {
         // given
-        Member member1 = Member.createMember("kikkb1114@naver.com", "rlarlqja5!", "kkkb1114", "주소", "상세 주소", 0L);
-        Member member2 = Member.createMember("aaa@naver.com", "aaa1", "aaa12", "주소", "상세 주소", 0L);
+        Member member1 = Member.createMember("kikkb1114@naver.com", "rlarlqja5!", "kkkb1114", "주소", "상세 주소", 0.0);
+        Member member2 = Member.createMember("aaa@naver.com", "aaa1", "aaa12", "주소", "상세 주소", 0.0);
         memberService.memberJoin(member1);
         memberService.memberJoin(member2);
 
@@ -86,13 +86,13 @@ class MemberServiceTest {
     @Test
     void memberFindOne() {
         // given
-        Member member1 = Member.createMember("kikkb1114@naver.com", "rlarlqja5!", "kkkb1114", "주소", "상세 주소", 0L);
-        Member member2 = Member.createMember("aaa@naver.com", "aaa1", "aaa12", "주소", "상세 주소", 0L);
+        Member member1 = Member.createMember("kikkb1114@naver.com", "rlarlqja5!", "kkkb1114", "주소", "상세 주소", 0.0);
+        Member member2 = Member.createMember("aaa@naver.com", "aaa1", "aaa12", "주소", "상세 주소", 0.0);
         memberService.memberJoin(member1);
         memberService.memberJoin(member2);
 
         // when
-        List<Member> memberList = memberService.memberFindOne("kkkb1114");
+        List<Member> memberList = memberService.memberFindName("kkkb1114");
 
         //then
         for (Member member : memberList) {

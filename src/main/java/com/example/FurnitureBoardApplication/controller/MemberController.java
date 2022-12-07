@@ -43,11 +43,12 @@ public class MemberController {
 
         // 정상 회원 가입
         Member member = Member.createMember(memberForm.getEmail(), memberForm.getPassword(), memberForm.getNickName(),
-                memberForm.getAddress(), memberForm.getDetailedAddress(), 0L);
+                memberForm.getAddress(), memberForm.getDetailedAddress(), 0.0);
         memberService.memberJoin(member);
         model.addAttribute("memberJoinSuccess", "환영합니다.");
+        model.addAttribute("loginForm", new LoginForm());
         //return "redirect:/";
-        return "members/memberList";
+        return "members/loginForm";
     }
 
     /**
@@ -83,9 +84,15 @@ public class MemberController {
         if (memberService.memberLogin(loginForm.getEmail(), loginForm.getPassword()) != null) {
             Member member = memberService.memberLogin(loginForm.getEmail(), loginForm.getPassword());
             Cookie cookie = new Cookie("memberId", String.valueOf(member.getId()));
+
+            cookie.setDomain("localhost");
+            cookie.setPath("/");
+            // 30초간 저장
+            cookie.setMaxAge(60*60);
+            cookie.setSecure(true);
             httpServletResponse.addCookie(cookie);
-            //return "redirect:/";
-            return "members/memberList";
+            return "redirect:/";
+            //return "home/home";
         } else {
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
             return "members/loginForm";
