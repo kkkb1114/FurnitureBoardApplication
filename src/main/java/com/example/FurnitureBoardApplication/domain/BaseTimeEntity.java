@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
 public class BaseTimeEntity {
 
     @CreatedDate // Entity가 최초 저장될때 시간 자동 저장
-    private LocalDateTime createdDate;
+    private LocalDateTime createdDateTime;
 
     @LastModifiedDate // Entity가 수정될때 시간 자동 저장
-    private LocalDateTime modifiedDate;
+    private LocalDateTime modifiedDateTime;
 }

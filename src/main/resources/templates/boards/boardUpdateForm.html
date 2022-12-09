@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<style>
+.fieldError {
+border-color: #bd2130;
+}
+ $(document).ready(function() {
+        let message = "[[${msg}]]";
+        if (message != "") {
+            alert(message);
+        }else {
+        }
+    })
+
+
+</style>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+    <div style="background-color: white;" class="navbar navbar-expand-lg">
+        <h1 th:if="${boardUpdate_id != null}" style="color: black;">게시글 수정</h1>
+    </div>
+    <form th:if="${boardUpdate_id != null}" class="px-4 py-3" th:action="@{/boards/update/{id}(id = ${boardUpdate_id})}"
+          th:object="${boardForm}" method="post">
+        <div class="mb-3">
+            <label for="boardWriteTitle" class="form-label">제목</label>
+            <input type="text" th:field="*{title}" class="form-control" id="boardWriteTitle"
+                   placeholder="제목">
+            <p style="color:red;" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Incorrect title</p>
+        </div>
+        <div class="mb-3">
+            <label for="boardWriteWriter" class="form-label">작성자</label>
+            <input type="text" th:field="*{writer}" class="form-control" id="boardWriteWriter"
+                   placeholder="작성자">
+            <p style="color:red;" th:if="${#fields.hasErrors('writer')}" th:errors="*{writer}">Incorrect writer</p>
+        </div>
+        <div class="mb-3">
+            <label for="boardWriteContent" class="form-label">내용</label>
+            <textarea type="text" th:field="*{content}" class="form-control" id="boardWriteContent"
+                      placeholder="내용"></textarea>
+            <p style="color:red;" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Incorrect
+                content</p>
+        </div>
+        <button th:if="${boardUpdate_id != null}" type="submit" class="btn btn-primary">게시글 수정</button>
+    </form>
+    </form>
+</div>
+</body>
+</html>

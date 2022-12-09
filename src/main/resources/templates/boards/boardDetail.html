@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
+    <div style="background-color: white;" class="navbar navbar-expand-lg">
+        <h1 style="color: black;">게시글 보기</h1>
+    </div>
+
+    <form class="card" action="/boards/write" th:object="${board}" method="post" style="margin: 0px 0px 10px 0px">
+        <div class="card-header d-flex justify-content-between">
+            <label th:text="'번호: ' + *{id}" class="form-label"></label>
+            <label th:text="*{createdDate}" class="form-label"></label>
+        </div>
+        <div class="card-header d-flex justify-content-between">
+            <label th:text="'작성자: ' + *{writer}" class="form-label"></label>
+        </div>
+        <div class="card-body">
+            <label for="boardWriteTitle">제목</label>
+            <input type="text" th:field="*{title}" class="form-control" id="boardWriteTitle" readonly>
+            <br/>
+            <label for="boardWriteContent">내용</label>
+            <textarea rows="5" type="text" th:field="*{content}" class="form-control" id="boardWriteContent"
+                      readonly></textarea>
+        </div>
+    </form>
+
+    <div th:object="${board}">
+        <a th:href="@{/boards/update/{id}(id = ${board.id})}" role="button" class="btn btn-primary bi bi-pencil-square">수정</a>
+        <a th:href="@{/boards/delete/{id}(id = ${board.id})}" role="button" class="btn btn-danger bi bi-trash">삭제</a>
+    </div>
+
+</div>
+</body>
+</html>

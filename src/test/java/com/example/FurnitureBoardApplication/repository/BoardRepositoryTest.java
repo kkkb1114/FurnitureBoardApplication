@@ -23,7 +23,7 @@ class BoardRepositoryTest {
     @Test
     void save_board() {
         //given
-        Board board1 = Board.createBoard("제목1", "작성자1", "내용1", 0.0);
+        Board board1 = Board.createBoard("제목1", "작성자1", "내용1", 0L, 0.0);
 
         //when
         Long id = boardRepository.save_board(board1);
@@ -36,8 +36,8 @@ class BoardRepositoryTest {
     @Test
     void findAllBoard() {
         //given
-        Board board1 = Board.createBoard("제목1", "작성자1", "내용1", 0.0);
-        Board board2 = Board.createBoard("제목2", "작성자2", "내용2", 0.0);
+        Board board1 = Board.createBoard("제목1", "작성자1", "내용1", 0L, 0.0);
+        Board board2 = Board.createBoard("제목2", "작성자2", "내용2", 0L, 0.0);
 
         //when
         Long id = boardRepository.save_board(board1);
@@ -52,16 +52,16 @@ class BoardRepositoryTest {
     @Test
     void findTitleBoard() {
         //given
-        Board board1 = Board.createBoard("제목1", "작성자1", "내용1", 0.0);
-        Board board2 = Board.createBoard("제목2", "작성자2", "내용2", 0.0);
+        Board board1 = Board.createBoard("제목1", "작성자1", "내용1", 0L, 0.0);
+        Board board2 = Board.createBoard("제목2", "작성자2", "내용2", 0L, 0.0);
 
         //when
         Long id = boardRepository.save_board(board1);
         Long id2 = boardRepository.save_board(board2);
-        List<Board> boardList = boardRepository.findTitleBoard("제목");
+        /*List<Board> boardList = boardRepository.findTitleBoard("제목");
         for (Board board : boardList){
             System.out.println("asdsadd:" + board.getTitle());
-        }
+        }*/
         
         //then
         //Assertions.assertThat(boardList.size()).isEqualTo(1);

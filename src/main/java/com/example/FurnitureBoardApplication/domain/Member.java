@@ -12,9 +12,10 @@ import java.util.List;
 
 @Entity
 @Getter
-public class Member extends BaseTimeEntity{
+public class Member extends BaseTimeEntity {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "member_id")
     private Long id; // pk
     private String email; // 계정 메일
@@ -27,10 +28,11 @@ public class Member extends BaseTimeEntity{
     // 잠시 order 클래스는 완성 전이라 빼고 테스트
     /*@OneToMany(mappedBy = "member", fetch = FetchType.LAZY)*/
 
-    protected Member(){}
+    protected Member() {
+    }
 
     //==생성 메서드==//
-    public static Member createMember(String email, String password, String nickName, String address, String detailedAddress, Double hidden){
+    public static Member createMember(String email, String password, String nickName, String address, String detailedAddress, Double hidden) {
         Member member = new Member();
         member.email = email;
         member.password = password;
@@ -41,8 +43,13 @@ public class Member extends BaseTimeEntity{
         return member;
     }
 
-    //==회원 수정==//
-    public void updateMember(String title, String writer, String content) {
+    //==회원 비밀번호 변경==//
+    public void passwordUpdate(String updatePassword) {
+        this.password = updatePassword;
+    }
+
+    //==회원 닉네임 변경==//
+    public void nickNameUpdate(String title, String writer, String content) {
         this.email = email;
         this.password = password;
         this.nickName = nickName;

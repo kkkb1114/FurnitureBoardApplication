@@ -8,25 +8,49 @@
         <h1 style="color: black;">메인 페이지</h1>
     </div>
     <div>
-        <table class="table">
+        <table class="table board-table">
             <thead class="table-light">
             <tr>
-                <th scope="col">번호</th>
-                <th scope="col">이메일</th>
-                <th scope="col">닉네임</th>
-                <th scope="col">주소</th>
+                <th width="10%" scope="col">번호</th>
+                <th width="20%" scope="col">작성자</th>
+                <th width="30%" scope="col">제목</th>
+                <th width="10%" scope="col">조회수</th>
+                <th width="20%" scope="col">작성일</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="member : ${memberList}">
-                <th th:text="${member.id}"></th>
-                <th th:text="${member.email}"></th>
-                <th th:text="${member.nickName}"></th>
-                <th th:text="${member.address}"></th>
+            <tr th:each="board : ${boardList}">
+                <td width="10%" th:text="${board.id}"></td>
+                <td width="20%" th:text="${board.writer}"></td>
+                <td width="40%"><a th:text="${board.title}" th:href="@{/boards/detail/{id}(id = ${board.id})}"></a></td>
+                <td width="10%" th:text="${board.views}"></td>
+                <td width="20%" th:text="${board.createdDate}"></td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        /* <![CDATA[ */
+        window.onload = () => {
+          const message = [[ ${boardWriteSuccess} ]];
+          if (message) {
+            alert(message);
+          }
+        }
+        /* ]]> */
+
+    </script>
+</th:block>
 </body>
+<style>
+    .board-table th{
+  text-align: center;
+}
+
+    .board-table td{
+  text-align: center;
+}
+</style>
 </html>

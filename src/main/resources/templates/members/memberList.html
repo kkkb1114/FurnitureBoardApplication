@@ -28,17 +28,5 @@
         </table>
     </div>
 </div>
-<th:block layout:fragment="script">
-    <script th:inline="javascript">
-        /* <![CDATA[ */
-        window.onload = () => {
-          const message = [[ ${memberJoinSuccess} ]];
-          if (message) {
-            alert(message);
-          }
-        }
-        /* ]]> */
-      </script>
-</th:block>
 </body>
 </html>

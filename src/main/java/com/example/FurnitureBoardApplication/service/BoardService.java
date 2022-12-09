@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -31,6 +32,13 @@ public class BoardService {
     @Transactional(readOnly = true)
     public Board findOneBoard(Long id){
         return boardRepository.findOneBoard(id);
+    }
+
+    //==생성 시간 설정==//
+    // Board가 DB에 저장된 후에 생성되는 LocalDateTime을 이용하여 만들기에 저장 후에 작성했다.
+    // jpa는 저장을 하지 않아도 중간에 데이터가 바뀌면 이를 감지하여 update하는 sql 문을 작성하기 때문에 @Transactional 메서드에 Entity 클래스의 데이터만 수정했다.
+    public void setCreatedDate(Board board){
+        board.setCreatedDate(board.getCreatedDateTime());
     }
 
     /**
@@ -64,5 +72,11 @@ public class BoardService {
     public void removeBoard(Long id){
         Board board = boardRepository.findOneBoard(id);
         board.removeBoard();
+    }
+
+    //==게시글 조회수 증가==//
+    public void addViewsBoard(Long id){
+        Board board = boardRepository.findOneBoard(id);
+        board.addViewsBoard();
     }
 }
