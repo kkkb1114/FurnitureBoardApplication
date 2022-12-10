@@ -16,18 +16,28 @@ public class MemberService {
 
     // 회원 가입
     public Long memberJoin(Member member){
-        validateDuplicateMember(member);
+        duplicateNicknameValidation(member); // 닉네임 중복 확인
+        duplicateEmailValidation(member); // 이메일 중복 확인
         memberRepository.save(member);
         return member.getId();
     }
     // 회원 이름 중복 확인
     @Transactional(readOnly = true)
-    public void validateDuplicateMember(Member member){
+    public void duplicateNicknameValidation(Member member){
         List<Member> memberList = memberRepository.findAllName(member.getNickName());
         if (memberList.size() > 0){
             throw new IllegalStateException("이미 존재하는 닉네임 입니다.");
         }
     }
+    // 회원 이메일 중복 확인
+    @Transactional(readOnly = true)
+    public void duplicateEmailValidation(Member member){
+        Member findMember = memberRepository.findOneEmail(member.getEmail());
+        if (findMember != null){
+            throw new IllegalStateException("이미 가입된 이메일 입니다.");
+        }
+    }
+
     // 회원 전체 조회
     @Transactional(readOnly = true)
     public List<Member> memberFindAll(){
@@ -56,5 +66,12 @@ public class MemberService {
         }else {
             return null;
         }
+    }
+
+    // 회원 탈퇴
+    @Transactional
+    public void memberDelete(Long id){
+        Member member = memberRepository.findOneId(id);
+        member.removeMember();
     }
 }

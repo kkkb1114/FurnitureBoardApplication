@@ -146,4 +146,16 @@ public class MemberController {
             return "members/passwordUpdateForm";
         }
     }
+
+    /**
+     * 회원 탈퇴
+     */
+    @GetMapping("/members/delete/{id}")
+    public String memberDelete(@PathVariable Long id, HttpServletRequest request){
+        memberService.memberDelete(id);
+        HttpSession httpSession = request.getSession();
+        httpSession.removeAttribute("memberId");
+        httpSession.removeAttribute("AutoLogin");
+        return "redirect:/";
+    }
 }

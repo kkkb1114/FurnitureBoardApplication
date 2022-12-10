@@ -38,14 +38,7 @@ public class HomeController {
         if (memberId != null){
             model.addAttribute("memberId", "memberId");
         }
-
-        List<Board> boardList = new ArrayList<>();
-        for (Board board : boardService.findAllBoard()){
-            if (board.getHidden() == 0){
-                boardList.add(board);
-            }
-        }
-
+        List<Board> boardList = boardService.findAllBoard();
         model.addAttribute("boardList", boardList);
         return "home/home";
     }

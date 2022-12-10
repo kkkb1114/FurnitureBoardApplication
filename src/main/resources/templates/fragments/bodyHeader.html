@@ -16,7 +16,7 @@
                         <a th:if="${session.memberId != null or session.AutoLogin != null}" th:href="@{/members/myInfo/{id}(id = ${session.memberId})}" class="nav-link">내 정보</a>
                     </li>
                     <li class="nav-item">
-                        <a th:if="${session.memberId != null or session.AutoLogin != null}" href="/boards/write" class="nav-link">게시글 쓰기</a>
+                        <a th:if="${session.memberId != null or session.AutoLogin != null}" th:href="@{/boards/write/{id}(id = ${session.memberId})}" class="nav-link">게시글 쓰기</a>
                     </li>
                     <!--<div class="col-auto">
                         <button th:if="${AutoLogin == null}" type="button" class="btn btn-primary">구글 로그인</button>

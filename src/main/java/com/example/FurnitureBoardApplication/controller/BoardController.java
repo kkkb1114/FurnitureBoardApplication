@@ -2,7 +2,9 @@ package com.example.FurnitureBoardApplication.controller;
 
 import com.example.FurnitureBoardApplication.controller.form.BoardForm;
 import com.example.FurnitureBoardApplication.domain.Board;
+import com.example.FurnitureBoardApplication.domain.Member;
 import com.example.FurnitureBoardApplication.service.BoardService;
+import com.example.FurnitureBoardApplication.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,13 +20,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardController {
     private final BoardService boardService;
+    private final MemberService memberService;
 
     /**
      * 게시글 작성 페이지 이동
      */
-    @GetMapping("/boards/write")
-    public String boardWriteForm(Model model){
+    @GetMapping("/boards/write/{id}")
+   public String boardWriteForm(@PathVariable Long id, Model model){
+        Member member = memberService.findOneId(id);
         model.addAttribute("boardForm", new BoardForm());
+        model.addAttribute("memberNickName", member.getNickName());
         model.addAttribute("boardWrite", "boardWrite");
         return "boards/boardWriteForm";
     }

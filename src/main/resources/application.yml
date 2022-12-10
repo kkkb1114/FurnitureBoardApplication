@@ -30,8 +30,6 @@ spring:
     username: root
     password: rlarlqja1234
     driver-class-name: com.mysql.cj.jdbc.Driver
-    #  mybatis.config-location: classpath:/mybatis/mybatis-config.xml
-    #  spring.datasource.mapper-locations: classpath:/mapper/*.xml
 
     # JPA 설정
   jpa:

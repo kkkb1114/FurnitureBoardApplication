@@ -49,12 +49,8 @@ public class Member extends BaseTimeEntity {
     }
 
     //==회원 닉네임 변경==//
-    public void nickNameUpdate(String title, String writer, String content) {
-        this.email = email;
+    public void nickNameUpdate(String password) {
         this.password = password;
-        this.nickName = nickName;
-        this.address = address;
-        this.detailedAddress = detailedAddress;
     }
 
     //==회원 탈퇴==//

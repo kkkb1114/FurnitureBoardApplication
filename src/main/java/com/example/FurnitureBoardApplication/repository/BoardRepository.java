@@ -24,7 +24,7 @@ public class BoardRepository {
 
     // 게시글 전부 조회
     public List<Board> findAllBoard(){
-        return entityManager.createQuery("select b from Board b", Board.class)
+        return entityManager.createQuery("select b from Board b where b.hidden = 0", Board.class)
                 .getResultList();
     }
 

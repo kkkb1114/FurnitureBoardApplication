@@ -37,10 +37,11 @@ public class MemberRepository {
 
     // 회원 정보 List로 전부 반환
     public List<Member> findAll(){
-        return entityManager.createQuery("select m from Member m", Member.class)
+        return entityManager.createQuery("select m from Member m where m.hidden = 0", Member.class)
                 .getResultList();
     }
 
+    /** findAll을 제외한 find에 where m.hidden = 0을 넣지 않은 이유는 지금은 존재하는지 확인 용도로만 사용하며 복구 될수도 있기 때문에 아예 중복 될수도 있는 상황을 배제 시켰다. */
     // 입력 받은 name과 동일한 회원 전부 List로 반환
     public List<Member> findAllName(String name){
         return entityManager.createQuery("select m from Member m where m.nickName = :name", Member.class)
@@ -66,7 +67,7 @@ public class MemberRepository {
         Member member = null;
         try {
             member = entityManager.createQuery("select m from Member m " +
-                    "where m.email = :email and m.password = :password", Member.class)
+                    "where m.email = :email and m.password = :password and m.hidden = 0", Member.class)
                     .setParameter("email", email)
                     .setParameter("password", password)
                     .getSingleResult();
