@@ -19,9 +19,9 @@ border-color: #bd2130;
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"></div>
     <div style="background-color: white;" class="navbar navbar-expand-lg">
-        <h1 th:if="${boardWrite != null}" style="color: black;">게시글 작성</h1>
+        <h1 style="color: black;">게시글 작성</h1>
     </div>
-    <form th:if="${boardWrite != null}" class="px-4 py-3" action="/boards/write" th:object="${boardForm}" method="post">
+    <form class="px-4 py-3" action="/boards/write" th:object="${boardForm}" method="post">
         <div class="mb-3">
             <label for="boardWriteTitle" class="form-label">제목</label>
             <input type="text" th:field="*{title}" class="form-control" id="boardWriteTitle"
@@ -30,9 +30,8 @@ border-color: #bd2130;
         </div>
         <div class="mb-3">
             <label for="boardWriteWriter" class="form-label">작성자</label>
-            <input type="text" th:value="${memberNickName}" class="form-control" id="boardWriteWriter"
-                   placeholder="작성자" readonly>
-            <p style="color:red;" th:if="${#fields.hasErrors('writer')}" th:errors="*{writer}">Incorrect writer</p>
+            <input style="text-color:black" type="text" th:field="*{writer}" th:value="${writer}" class="form-control"
+                   id="boardWriteWriter" readonly>
         </div>
         <div class="mb-3">
             <label for="boardWriteContent" class="form-label">내용</label>
@@ -41,7 +40,7 @@ border-color: #bd2130;
             <p style="color:red;" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Incorrect
                 content</p>
         </div>
-        <button th:if="${boardWrite != null}" type="submit" class="btn btn-primary">게시글 작성</button>
+        <button type="submit" class="btn btn-primary">게시글 작성</button>
     </form>
 </div>
 </body>

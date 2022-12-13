@@ -31,9 +31,7 @@ border-color: #bd2130;
         </div>
         <div class="mb-3">
             <label for="boardWriteWriter" class="form-label">작성자</label>
-            <input type="text" th:field="*{writer}" class="form-control" id="boardWriteWriter"
-                   placeholder="작성자">
-            <p style="color:red;" th:if="${#fields.hasErrors('writer')}" th:errors="*{writer}">Incorrect writer</p>
+            <input style="text-color:black" type="text" th:field="*{writer}" class="form-control" id="boardWriteWriter" readonly>
         </div>
         <div class="mb-3">
             <label for="boardWriteContent" class="form-label">내용</label>

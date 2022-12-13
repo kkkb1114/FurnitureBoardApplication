@@ -3,7 +3,7 @@ package com.example.FurnitureBoardApplication.controller;
 import com.example.FurnitureBoardApplication.controller.form.LoginForm;
 import com.example.FurnitureBoardApplication.controller.form.MemberForm;
 import com.example.FurnitureBoardApplication.controller.form.PasswordUpdateForm;
-import com.example.FurnitureBoardApplication.domain.Member;
+import com.example.FurnitureBoardApplication.dto.Member;
 import com.example.FurnitureBoardApplication.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -11,9 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
@@ -92,6 +90,7 @@ public class MemberController {
             }
 
             httpSession.setAttribute("memberId", member.getId()); // memberId 세션 저장
+            httpSession.setAttribute("memberName", member.getNickName()); // memberId 세션 저장
             return "redirect:/";
         } else {
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
@@ -145,6 +144,17 @@ public class MemberController {
             bindingResult.reject("입력하신 현재 비밀번호가 일치하지 않습니다.");
             return "members/passwordUpdateForm";
         }
+    }
+
+    /**
+     * 로그아웃
+     */
+    @GetMapping("/members/logout")
+    public String memberDelete(HttpServletRequest request){
+        HttpSession httpSession = request.getSession();
+        httpSession.removeAttribute("memberId");
+        httpSession.removeAttribute("AutoLogin");
+        return "redirect:/";
     }
 
     /**

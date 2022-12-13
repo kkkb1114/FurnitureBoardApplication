@@ -11,7 +11,7 @@
     <form class="card" action="/boards/write" th:object="${board}" method="post" style="margin: 0px 0px 10px 0px">
         <div class="card-header d-flex justify-content-between">
             <label th:text="'번호: ' + *{id}" class="form-label"></label>
-            <label th:text="*{createdDate}" class="form-label"></label>
+            <label th:text="'작성일: ' + *{createdDate}" class="form-label"></label>
         </div>
         <div class="card-header d-flex justify-content-between">
             <label th:text="'작성자: ' + *{writer}" class="form-label"></label>
@@ -27,10 +27,62 @@
     </form>
 
     <div th:object="${board}">
-        <a th:href="@{/boards/update/{id}(id = ${board.id})}" role="button" class="btn btn-primary bi bi-pencil-square">수정</a>
-        <a th:href="@{/boards/delete/{id}(id = ${board.id})}" role="button" class="btn btn-danger bi bi-trash">삭제</a>
+        <a th:if="${board.member.id} == ${session.memberId}" th:href="@{/boards/update/{id}(id = ${board.id})}" role="button" class="btn btn-primary bi bi-pencil-square">수정</a>
+        <a th:if="${board.member.id} == ${session.memberId}" th:href="@{/boards/delete/{id}(id = ${board.id})}" role="button" class="btn btn-danger bi bi-trash">삭제</a>
     </div>
 
+    <div style="margin: 10px 0px 0px 0px">
+        <a class="btn btn-outline-secondary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+           aria-controls="collapseExample" aria-pressed="true">
+            댓글 보기
+        </a>
+    </div>
+
+    <div class="collapse" id="collapseExample">
+        <div class="card" style="background-color:#ffe4c4; margin: 10px 0px 0px 0px; padding: 0px 10px 10px 0px;">
+            <table>
+                <thead class="card-header">
+                <tr>
+                    <td><h5 style="text-color: black; margin: 10px 0px 0px 0px;">댓글</h5></td>
+                </tr>
+                </thead>
+
+                <tbody>
+                <div th:each="comment : ${commentList}" style="margin: 10px 0px 10px 0px;">
+                    <tr>
+                        <td>
+                            <div th:text="${comment.writer}+' | '+${comment.createdDate}" class="ms-1 me-auto"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div th:text="${comment.content}" class="ms-1 me-auto"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a th:if="${comment.member.id} == ${session.memberId}" th:href="@{/comments/update/{id}(id = ${comment.id})}" role="button"
+                               class="btn btn-primary bi bi-pencil-square">수정</a>
+                            <a th:if="${comment.board.member.id} == ${session.memberId}" th:href="@{/comments/delete/{id}(id = ${comment.id})}" role="button"
+                               class="btn btn-danger bi bi-trash">삭제</a>
+                        </td>
+                    </tr>
+                </div>
+                </tbody>
+            </table>
+
+            <form th:if="${session.memberId} != null" class="px-4 py-3" action="/comments/write" th:object="${CommentForm}" method="post">
+                <div class="mb-3">
+                    <input type="hidden" th:value="${board.id}" th:name="boardId"/>
+                    <label th:value="${session.memberName}" th:text="'닉네임: ' + ${session.memberName}"
+                           for="commentWriteContent"></label>
+                    <textarea type="text" th:field="*{content}" placeholder="댓글을 적어주세요." class="form-control"
+                              id="commentWriteContent"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">등록</button>
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>

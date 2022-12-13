@@ -1,6 +1,6 @@
 package com.example.FurnitureBoardApplication.repository;
 
-import com.example.FurnitureBoardApplication.domain.Board;
+import com.example.FurnitureBoardApplication.dto.Board;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

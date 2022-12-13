@@ -1,7 +1,6 @@
 package com.example.FurnitureBoardApplication.controller;
 
-import com.example.FurnitureBoardApplication.domain.Board;
-import com.example.FurnitureBoardApplication.domain.Member;
+import com.example.FurnitureBoardApplication.dto.Board;
 import com.example.FurnitureBoardApplication.service.BoardService;
 import com.example.FurnitureBoardApplication.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -10,8 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.servlet.http.Cookie;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller

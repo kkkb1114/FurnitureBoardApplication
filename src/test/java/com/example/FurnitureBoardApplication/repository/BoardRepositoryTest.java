@@ -1,6 +1,6 @@
 package com.example.FurnitureBoardApplication.repository;
 
-import com.example.FurnitureBoardApplication.domain.Board;
+import com.example.FurnitureBoardApplication.dto.Board;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,13 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
 class BoardRepositoryTest {
-    @Autowired
+    /*@Autowired
     private BoardRepository boardRepository;
 
     @Test
@@ -61,8 +59,8 @@ class BoardRepositoryTest {
         /*List<Board> boardList = boardRepository.findTitleBoard("제목");
         for (Board board : boardList){
             System.out.println("asdsadd:" + board.getTitle());
-        }*/
-        
+        }
+
         //then
         //Assertions.assertThat(boardList.size()).isEqualTo(1);
     }
@@ -83,5 +81,5 @@ class BoardRepositoryTest {
         //when
 
         //then
-    }
+    }*/
 }

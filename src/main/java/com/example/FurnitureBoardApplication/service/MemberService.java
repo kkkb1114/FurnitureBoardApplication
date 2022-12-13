@@ -1,6 +1,6 @@
 package com.example.FurnitureBoardApplication.service;
 
-import com.example.FurnitureBoardApplication.domain.Member;
+import com.example.FurnitureBoardApplication.dto.Member;
 import com.example.FurnitureBoardApplication.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

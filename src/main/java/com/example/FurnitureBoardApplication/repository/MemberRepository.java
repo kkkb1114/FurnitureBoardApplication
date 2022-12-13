@@ -1,6 +1,6 @@
 package com.example.FurnitureBoardApplication.repository;
 
-import com.example.FurnitureBoardApplication.domain.Member;
+import com.example.FurnitureBoardApplication.dto.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -64,6 +64,7 @@ public class MemberRepository {
 
     // 입력 받은 email과 동일한 회원 전부 List로 반환
     public Member memberLogin(String email, String password){
+        System.out.println("memberLogin: "+email+password);
         Member member = null;
         try {
             member = entityManager.createQuery("select m from Member m " +

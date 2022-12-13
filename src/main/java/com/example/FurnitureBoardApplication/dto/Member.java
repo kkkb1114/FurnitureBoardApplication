@@ -1,12 +1,8 @@
-package com.example.FurnitureBoardApplication.domain;
+package com.example.FurnitureBoardApplication.dto;
 
 import lombok.Getter;
-import org.aspectj.weaver.ast.Or;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +20,12 @@ public class Member extends BaseTimeEntity {
     private String address; // 주소
     private String detailedAddress; // 상세 주소
     private Double hidden; // 회원 탈퇴 여부
-    //private Address address; // 주소 (일단 이건 필요 없을 것 같아서 주석 처리)
-    // 잠시 order 클래스는 완성 전이라 빼고 테스트
-    /*@OneToMany(mappedBy = "member", fetch = FetchType.LAZY)*/
+    
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Comment> commentList = new ArrayList<>(); // 댓글
+    
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Board> boardList = new ArrayList<>(); // 게시글
 
     protected Member() {
     }

@@ -1,7 +1,6 @@
-package com.example.FurnitureBoardApplication.domain;
+package com.example.FurnitureBoardApplication.dto;
 
 import lombok.Getter;
-import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 

@@ -1,4 +1,4 @@
-package com.example.FurnitureBoardApplication.domain;
+package com.example.FurnitureBoardApplication.dto;
 
 import lombok.Getter;
 
