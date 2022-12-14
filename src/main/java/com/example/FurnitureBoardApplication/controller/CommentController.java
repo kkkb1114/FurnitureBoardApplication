@@ -57,18 +57,17 @@ public class CommentController {
             List<Comment> commentList = commentService.find_Comment(boardId);
             model.addAttribute("commentList", commentList);
             return "boards/boardDetail";
-            댓글 내용 아무것도 안적으면 팝업창 띄워야한다.
         }
     }
 
     /**
      * 댓글 삭제
      */
-    @GetMapping("/comments/delete/{id}")
-    public String removeComment(@PathVariable Long id){
-        System.out.println("removeComment: "+id);
-        commentService.delete_Comment(id);
-        return "redirect:/";
+    @GetMapping("/comments/delete/{commentId}/{boardId}")
+    public String removeComment(@PathVariable Long commentId, @PathVariable Long boardId, Model model) {
+        commentService.delete_Comment(commentId);
+        boardRefresh(model, boardId); // 게시글 새로고침 함수
+        return "boards/boardDetail";
     }
 
     /**
@@ -78,5 +77,16 @@ public class CommentController {
     public String commentUpdate(@PathVariable Long id, @Valid CommentForm commentForm) {
         commentService.update_Comment(id, commentForm.getContent());
         return "redirect:/";
+    }
+
+    /**
+     * 게시글 새로고침 메소드
+     */
+    public void boardRefresh(Model model,Long boardId) {
+        Board board = boardService.findOneBoard(boardId);
+        List<Comment> commentList = commentService.find_Comment(boardId);
+        model.addAttribute("board", board);
+        model.addAttribute("CommentForm", new CommentForm());
+        model.addAttribute("commentList", commentList);
     }
 }
