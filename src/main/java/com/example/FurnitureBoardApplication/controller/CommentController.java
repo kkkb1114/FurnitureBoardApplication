@@ -66,27 +66,50 @@ public class CommentController {
     @GetMapping("/comments/delete/{commentId}/{boardId}")
     public String removeComment(@PathVariable Long commentId, @PathVariable Long boardId, Model model) {
         commentService.delete_Comment(commentId);
-        boardRefresh(model, boardId); // 게시글 새로고침 함수
+        boardRefresh_delete(model, boardId); // 게시글 새로고침 함수
         return "boards/boardDetail";
     }
 
     /**
      * 댓글 수정
      */
-    @GetMapping("/comments/update/{id}")
-    public String commentUpdate(@PathVariable Long id, @Valid CommentForm commentForm) {
-        commentService.update_Comment(id, commentForm.getContent());
-        return "redirect:/";
+    @PostMapping("/comments/update/{commentId}")
+    public String commentUpdate(@Valid CommentForm commentForm, BindingResult bindingResult, Model model,
+                                @PathVariable Long commentId, HttpServletRequest request) {
+        return boardRefresh_write_update(commentId, commentForm, model, request, bindingResult);
     }
 
     /**
-     * 게시글 새로고침 메소드
+     * 게시글 새로고침 메소드 (삭제)
      */
-    public void boardRefresh(Model model,Long boardId) {
+    public void boardRefresh_delete(Model model,Long boardId) {
         Board board = boardService.findOneBoard(boardId);
         List<Comment> commentList = commentService.find_Comment(boardId);
         model.addAttribute("board", board);
         model.addAttribute("CommentForm", new CommentForm());
         model.addAttribute("commentList", commentList);
+    }
+
+    /**
+     * 게시글 새로고침 메소드 (작성, 수정)
+     */
+    public String boardRefresh_write_update(Long commentId, CommentForm commentForm, Model model,
+                                            HttpServletRequest request, BindingResult bindingResult) {
+        Long boardId = Long.valueOf(request.getParameter("boardId"));
+        Board board = boardService.findOneBoard(boardId);
+
+        model.addAttribute("board", board);
+        model.addAttribute("CommentForm", new CommentForm());
+
+        if (bindingResult.hasErrors()) {
+            List<Comment> commentList = commentService.find_Comment(boardId); // 댓글이 제대로 입력되지 않아서 에러난 경우 기존 양식 그대로 돌아와야하기에 기존 댓글 list를 다시 model에 넣는다.
+            model.addAttribute("commentList", commentList);
+            return "boards/boardDetail";
+        }else {
+            commentService.update_Comment(commentId, commentForm.getContent());
+            List<Comment> commentList = commentService.find_Comment(boardId);
+            model.addAttribute("commentList", commentList);
+            return "boards/boardDetail";
+        }
     }
 }

@@ -34,44 +34,68 @@
     </div>
 
     <div class="card" style="background-color:#ffe4c4; margin: 10px 0px 0px 0px; padding: 0px 10px 10px 0px;">
-            <table style="margin: 10px">
-                <thead class="card-header">
-                <tr>
-                    <td><h5 style="text-color: black; margin: 10px 0px 0px 0px;">댓글</h5></td>
-                </tr>
-                </thead>
+        <table style="margin: 10px">
+            <thead class="card-header">
+            <tr>
+                <td><h5 style="text-color: black; margin: 10px 0px 0px 0px;"
+                        th:text="'댓글'+' '+${#lists.size(commentList)}"></h5></td>
+            </tr>
+            </thead>
 
-                <tbody th:each="comment : ${commentList}" style="margin: 10px">
-                <tr>
-                    <td>
-                        <div th:text="${comment.writer}+' | '+${comment.createdDate}" class="ms-1 me-auto"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div th:text="${comment.content}" class="ms-1 me-auto"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <a th:if="${comment.member.id} == ${session.memberId}"
-                           th:href="@{/comments/update/{id}(id = ${comment.id})}"
-                           role="button" class="btn btn-primary bi bi-pencil-square">수정</a>
-                        <a th:if="${comment.member.id} == ${session.memberId}"
-                           th:href="@{/comments/delete/{commentId}/{boardId}(commentId = ${comment.id}, boardId = ${board.id})}"
-                           role="button" class="btn btn-danger bi bi-trash">삭제</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <hr>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <tbody th:each="comment : ${commentList}" style="margin: 10px">
+            <tr>
+                <td>
+                    <div th:text="${comment.writer}+' | '+${comment.createdDate}" class="ms-1 me-auto"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div th:text="${comment.content}" class="ms-1 me-auto"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <!--<a th:if="${comment.member.id} == ${session.memberId}"
+                       th:href="@{/comments/update/{id}(id = ${comment.id})}"
+                       role="button" class="btn btn-primary bi bi-pencil-square">수정</a>-->
+                    <a th:if="${comment.member.id} == ${session.memberId}"
+                       class="btn btn-primary" data-bs-toggle="collapse"
+                       th:href="@{#commentUpdateForm{commentId}(commentId = ${comment.id})}" role="button"
+                       aria-expanded="false" th:aria-controls="commentUpdateForm+${comment.id}">수정</a>
+                    <a th:if="${comment.member.id} == ${session.memberId}"
+                       th:href="@{/comments/delete/{commentId}/{boardId}(commentId = ${comment.id}, boardId = ${board.id})}"
+                       role="button" class="btn btn-danger bi bi-trash">삭제</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="collapse" th:id="commentUpdateForm+${comment.id}">
+                        <div class="card card-body">
+                            <form th:if="${session.memberId} != null" th:object="${CommentForm}"
+                                  th:action="@{/comments/update/{commentId}(commentId = ${comment.id})}"
+                                  method="post" name="commentUpdateForm">
+                                <input type="hidden" th:value="${board.id}" th:name="boardId"/>
+                                <label th:value="${session.memberName}" th:text="'닉네임: ' + ${session.memberName}"
+                                       for="commentUpdateContent"></label>
+                                <textarea type="text" th:field="*{content}" th:text="${comment.content}"
+                                          th:placeholder="${comment.content}" class="form-control"
+                                          name="commentUpdateContent" id="commentUpdateContent"></textarea>
+                                <button onclick="commentCheck()" class="btn btn-primary">댓글 수정</button>
+                            </form>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <hr>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
         <form th:if="${session.memberId} != null" class="px-4 py-3" action="/comments/write"
-              th:object="${CommentForm}" method="post" name="comment">
+              th:object="${CommentForm}" method="post" name="commentWriteForm">
             <div class="mb-3">
                 <input type="hidden" th:value="${board.id}" th:name="boardId"/>
                 <label th:value="${session.memberName}" th:text="'닉네임: ' + ${session.memberName}"
@@ -87,16 +111,23 @@
 
 <script type="text/javascript">
 function commentCheck(){
+
 var content = document.getElementById('commentWriteContent');
+var content_update = document.getElementById('commentUpdateContent');
+
     if(content.value == ""){
-    alert("댓글을 입력하세요.")
-    comment.commentWriteContent.focus();
-    return false;
+        alert("내용을 입력하세요.")
+        comment.commentWriteContent.focus();
+        return false;
+    }
+
+    if(content_update.value == ""){
+        alert("내용을 입력하세요.")
+        comment.commentUpdateContent.focus();
+        return false;
     }
     comment.submit();
-    }
-
-
+}
 
 </script>
 </html>

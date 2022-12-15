@@ -11,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
@@ -73,8 +75,9 @@ public class MemberController {
      * 로그인
      */
     @PostMapping("/members/login")
-    public String memberLogin(@Valid LoginForm loginForm, BindingResult bindingResult, HttpServletRequest request,
-                              @RequestParam(value = "autoLogin", required = false) boolean autoLogin) {
+    public String memberLogin(@Valid LoginForm loginForm, BindingResult bindingResult,
+                              @RequestParam(value = "autoLogin", required = false) boolean autoLogin,
+                              HttpServletResponse response, HttpServletRequest request) {
         // 아이디, 비밀번호 둘중 하나라도 입력되지 않으면 경고
         if (bindingResult.hasErrors()) {
             return "members/loginForm";
@@ -86,7 +89,13 @@ public class MemberController {
             HttpSession httpSession = request.getSession();
             if (autoLogin) {
                 // AutoLogin 세션 저장(이건 세션으로 하면 일반 로그인과 다를바가 없어 !!!!쿠키로 만들어야 할 듯 하다!!!!)
-                httpSession.setAttribute("AutoLogin", "AutoLogin");
+                //httpSession.setAttribute("AutoLogin", "AutoLogin");
+                Cookie cookie = new Cookie("AutoLogin", String.valueOf(member.getId()));
+                cookie.setDomain("localhost");
+                cookie.setPath("/");
+                cookie.setMaxAge(60*60);
+                cookie.setSecure(true);
+                response.addCookie(cookie);
             }
 
             httpSession.setAttribute("memberId", member.getId()); // memberId 세션 저장
@@ -150,10 +159,15 @@ public class MemberController {
      * 로그아웃
      */
     @GetMapping("/members/logout")
-    public String memberDelete(HttpServletRequest request){
+    public String memberDelete(HttpServletRequest request, HttpServletResponse response){
         HttpSession httpSession = request.getSession();
         httpSession.removeAttribute("memberId");
-        httpSession.removeAttribute("AutoLogin");
+        Cookie cookie = new Cookie("AutoLogin", null);
+        cookie.setMaxAge(0);
+        cookie.setDomain("localhost");
+        cookie.setPath("/");
+        cookie.setSecure(true);
+        response.addCookie(cookie);
         return "redirect:/";
     }
 
