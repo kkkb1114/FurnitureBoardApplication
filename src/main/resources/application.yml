@@ -57,3 +57,13 @@ spring:
   logging.level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+
+    # //== email 전용 ==//
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: kikkb1114@gmail.com
+    password: ccqyacuwepdpqpdy
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true

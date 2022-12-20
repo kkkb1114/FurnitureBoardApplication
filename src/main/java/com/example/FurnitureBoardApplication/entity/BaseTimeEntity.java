@@ -1,4 +1,4 @@
-package com.example.FurnitureBoardApplication.dto;
+package com.example.FurnitureBoardApplication.entity;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

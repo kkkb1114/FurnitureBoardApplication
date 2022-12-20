@@ -2,9 +2,9 @@ package com.example.FurnitureBoardApplication.controller;
 
 import com.example.FurnitureBoardApplication.controller.form.BoardForm;
 import com.example.FurnitureBoardApplication.controller.form.CommentForm;
-import com.example.FurnitureBoardApplication.dto.Board;
-import com.example.FurnitureBoardApplication.dto.Comment;
-import com.example.FurnitureBoardApplication.dto.Member;
+import com.example.FurnitureBoardApplication.entity.Board;
+import com.example.FurnitureBoardApplication.entity.Comment;
+import com.example.FurnitureBoardApplication.entity.Member;
 import com.example.FurnitureBoardApplication.service.BoardService;
 import com.example.FurnitureBoardApplication.service.CommentService;
 import com.example.FurnitureBoardApplication.service.MemberService;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.net.http.HttpRequest;
 import java.util.List;
 
 @Controller
@@ -28,6 +27,7 @@ public class BoardController {
     private final BoardService boardService;
     private final MemberService memberService;
     private final CommentService commentService;
+
 
     /**
      * 게시글 작성 페이지 이동

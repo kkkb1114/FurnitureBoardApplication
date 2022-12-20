@@ -1,7 +1,7 @@
 package com.example.FurnitureBoardApplication.controller;
 
-import com.example.FurnitureBoardApplication.dto.Board;
-import com.example.FurnitureBoardApplication.dto.Member;
+import com.example.FurnitureBoardApplication.entity.Board;
+import com.example.FurnitureBoardApplication.entity.Member;
 import com.example.FurnitureBoardApplication.service.BoardService;
 import com.example.FurnitureBoardApplication.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +30,10 @@ public class HomeController {
     }*/
 
     /**
-     * 1. 메인 페이지 이동
-     * 2. hidden값이 0인 게시글만 보여준다.
+     * <메인 페이지 이동>
+     * 1. hidden값이 0인 게시글만 보여준다.
+     * 2. 쿠키가 존재한다면 로그인 세션을 등록후 홈 화면으로 이동. (그럼 로그인 됨)
+     * 3. 메인 페이지가 게시판이기에 페이징할 데이터를 같이 보낸다.
      */
     @GetMapping("/")
     public String home(@CookieValue(name = "AutoLogin", required = false) String memberId, Model model,
@@ -44,6 +46,7 @@ public class HomeController {
             return "home/home";
         }
         List<Board> boardList = boardService.findAllBoard();
+
         model.addAttribute("boardList", boardList);
         return "home/home";
     }

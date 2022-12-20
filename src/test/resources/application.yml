@@ -5,15 +5,40 @@ spring:
     password: rlarlqja5!
     driver-class-name: org.h2.Driver
 
-  # ddl-auto: create-drop: 이 옵션은 애플리케이션 실행 시점에 자동으로 테이블을 drop하고, 다시 생성해준다는 말이다.
+    # JPA 설정
+    # ddl-auto: create
   jpa:
+    database: mysql
     hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        format_sql: true
-        show_sql: true
+      ddl-auto: update
+      show-sql: true
 
-  loggin.level:
+  server:
+    address: localhost
+    port: 8080
+
+    # 변경시 자동 restart
+  devtools:
+    restart.enabled: true
+    livereload.enabled: true
+
+    # Thymeleaf 설정
+  thymeleaf:
+    cache: false
+    enabled: true
+    prefix: file:src/main/resources/templates/
+
+    # hibernate 설정
+  logging.level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+
+    # //== email 전용 ==//
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: kikkb1114@gmail.com
+    password: ccqyacuwepdpqpdy
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true

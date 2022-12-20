@@ -1,6 +1,6 @@
 package com.example.FurnitureBoardApplication.repository;
 
-import com.example.FurnitureBoardApplication.dto.Member;
+import com.example.FurnitureBoardApplication.entity.Member;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

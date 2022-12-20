@@ -1,6 +1,8 @@
 package com.example.FurnitureBoardApplication.repository;
 
-import com.example.FurnitureBoardApplication.dto.Comment;
+import com.example.FurnitureBoardApplication.entity.Comment;
+import com.example.FurnitureBoardApplication.dto.QComment;
+import com.querydsl.jpa.impl.JPAQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -26,11 +28,12 @@ public class CommentRepository {
         return entityManager.find(Comment.class, id);
     }
 
-    // todo 댓글 조회 (게시글에 해당하는 댓글만) 일단 전부 찾기로 만들고 Querydsl을 빨리 습득하자
     public List<Comment> findComment(Long boardId){
-        List<Comment> commentList = entityManager.createQuery("select c from Comment c where c.hidden = 0 and c.board.id = :boardId", Comment.class)
-                .setParameter("boardId", boardId)
-                .getResultList();
-        return commentList;
+        JPAQuery<Comment> query = new JPAQuery<>(entityManager);
+        QComment qComment = new QComment("c");
+        return query.from(qComment)
+                .where(qComment.board.id.eq(boardId))
+                .orderBy(qComment.id.desc())
+                .fetch();
     }
 }

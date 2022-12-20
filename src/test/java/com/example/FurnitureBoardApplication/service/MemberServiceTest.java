@@ -1,6 +1,6 @@
 package com.example.FurnitureBoardApplication.service;
 
-import com.example.FurnitureBoardApplication.dto.Member;
+import com.example.FurnitureBoardApplication.entity.Member;
 import com.example.FurnitureBoardApplication.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

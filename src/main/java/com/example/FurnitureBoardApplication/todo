@@ -1,10 +1,12 @@
 - 댓글 수정 -
 - 자동 로그인(쿠키 이용) -
-아이디 찾기 (이메일 인증)
-비밀번호 찾기 (이메일 인증)
-Querydsl로 검색 기능 만들기
+- Querydsl로 검색 기능 만들기 -
+
+현재 코드가 매우 고장나기 좋기 때문에 구글 dto, Impl등 없는건 알기에 검색해서 고쳐도 괜찮지만 이왕 시간 쓸거 강의보고 고치는게 나을듯 하다.
+
+<김영하 jpa 강의 2번째편 보고 만드는게 좋을 듯 하다>
 페이징
 
-
-<이메일 인증 자료>
-https://www.google.com/search?q=%EC%8A%A4%ED%94%84%EB%A7%81+%EC%9D%B4%EB%A9%94%EC%9D%BC+%EC%9D%B8%EC%A6%9D&sxsrf=ALiCzsYWKU90ylIOaRzMEZdfh8SsXT0njA:1670999511633&source=lnt&tbs=qdr:y&sa=X&ved=2ahUKEwiT572ivvj7AhVWCKYKHWrBCoQQpwV6BAgBEB0&biw=1920&bih=969&dpr=1
+<인증 부분은 스프링 시큐리티에 대한 자료를 공부후에 구현해야할 듯 하다.>
+아이디 찾기 (이메일 인증)
+비밀번호 찾기 (이메일 인증)

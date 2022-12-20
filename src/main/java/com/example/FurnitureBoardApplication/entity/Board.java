@@ -1,6 +1,8 @@
-package com.example.FurnitureBoardApplication.dto;
+package com.example.FurnitureBoardApplication.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -9,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Board extends BaseTimeEntity{
 
     @Id
@@ -29,7 +32,7 @@ public class Board extends BaseTimeEntity{
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
     private List<Comment> commentList = new ArrayList<>(); // 댓글
 
-    protected Board() {
+    public Board(Board board) {
     }
 
     //==생성 메서드==//

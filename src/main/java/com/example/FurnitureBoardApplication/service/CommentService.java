@@ -1,7 +1,6 @@
 package com.example.FurnitureBoardApplication.service;
 
-import com.example.FurnitureBoardApplication.dto.Board;
-import com.example.FurnitureBoardApplication.dto.Comment;
+import com.example.FurnitureBoardApplication.entity.Comment;
 import com.example.FurnitureBoardApplication.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

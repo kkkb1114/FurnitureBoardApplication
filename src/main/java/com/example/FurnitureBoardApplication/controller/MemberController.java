@@ -3,7 +3,9 @@ package com.example.FurnitureBoardApplication.controller;
 import com.example.FurnitureBoardApplication.controller.form.LoginForm;
 import com.example.FurnitureBoardApplication.controller.form.MemberForm;
 import com.example.FurnitureBoardApplication.controller.form.PasswordUpdateForm;
-import com.example.FurnitureBoardApplication.dto.Member;
+import com.example.FurnitureBoardApplication.entity.Mail;
+import com.example.FurnitureBoardApplication.entity.Member;
+import com.example.FurnitureBoardApplication.service.MailService;
 import com.example.FurnitureBoardApplication.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
+    private final MailService mailService;
 
     /**
      * 회원 가입 페이지 이동
@@ -48,7 +51,6 @@ public class MemberController {
         memberService.memberJoin(member);
         model.addAttribute("memberJoinSuccess", "환영합니다.");
         model.addAttribute("loginForm", new LoginForm());
-        //return "redirect:/";
         return "members/loginForm";
     }
 
@@ -93,7 +95,7 @@ public class MemberController {
                 Cookie cookie = new Cookie("AutoLogin", String.valueOf(member.getId()));
                 cookie.setDomain("localhost");
                 cookie.setPath("/");
-                cookie.setMaxAge(60*60);
+                cookie.setMaxAge(60 * 60);
                 cookie.setSecure(true);
                 response.addCookie(cookie);
             }
@@ -128,7 +130,7 @@ public class MemberController {
     }
 
     /**
-     * 비밀번호 변경 페이지 이동
+     * 비밀번호 변경
      */
     @PostMapping("/members/passwordUpdate/{id}")
     public String passwordUpdate(@PathVariable Long id, @Valid PasswordUpdateForm passwordUpdateForm, BindingResult bindingResult,
@@ -136,19 +138,25 @@ public class MemberController {
         if (bindingResult.hasErrors()) {
             return "members/passwordUpdateForm";
         }
-        if (!passwordUpdateForm.getUpdatePassword().equals(passwordUpdateForm.getUpdatePasswordConfirm())) {
-            bindingResult.reject("입력하신 변경 비밀번호가 맞지 않습니다.");
-            return "members/passwordUpdateForm";
-        }
+
+        String nowPassword = passwordUpdateForm.getNowPassword();
+        String UpdatePassword = passwordUpdateForm.getUpdatePassword();
+        String UpdatePasswordConfirm = passwordUpdateForm.getUpdatePasswordConfirm();
 
         Member member = memberService.findOneId(id);
-        if (member.getPassword().equals(passwordUpdateForm.getUpdatePasswordConfirm())) {
-            HttpSession httpSession = request.getSession();
-            httpSession.removeAttribute("memberId");
-            httpSession.removeAttribute("AutoLogin");
 
-            member.passwordUpdate(passwordUpdateForm.getUpdatePasswordConfirm());
-            return "members/loginForm";
+        if (member.getPassword().equals(nowPassword)) {
+            if (!UpdatePassword.equals(UpdatePasswordConfirm)) {
+                bindingResult.reject("입력하신 현재 비밀번호가 일치하지 않습니다.");
+                return "members/passwordUpdateForm";
+            } else {
+                HttpSession httpSession = request.getSession();
+                httpSession.removeAttribute("memberId");
+                httpSession.removeAttribute("AutoLogin");
+
+                memberService.passwordUpdate(member, UpdatePasswordConfirm);
+                return "members/loginForm";
+            }
         } else {
             bindingResult.reject("입력하신 현재 비밀번호가 일치하지 않습니다.");
             return "members/passwordUpdateForm";
@@ -159,7 +167,7 @@ public class MemberController {
      * 로그아웃
      */
     @GetMapping("/members/logout")
-    public String memberDelete(HttpServletRequest request, HttpServletResponse response){
+    public String memberDelete(HttpServletRequest request, HttpServletResponse response) {
         HttpSession httpSession = request.getSession();
         httpSession.removeAttribute("memberId");
         Cookie cookie = new Cookie("AutoLogin", null);
@@ -175,11 +183,49 @@ public class MemberController {
      * 회원 탈퇴
      */
     @GetMapping("/members/delete/{id}")
-    public String memberDelete(@PathVariable Long id, HttpServletRequest request){
+    public String memberDelete(@PathVariable Long id, HttpServletRequest request) {
         memberService.memberDelete(id);
         HttpSession httpSession = request.getSession();
         httpSession.removeAttribute("memberId");
         httpSession.removeAttribute("AutoLogin");
         return "redirect:/";
+    }
+
+    /**
+     * 비밀번호 찾기 페이지 이동
+     */
+    @GetMapping("/members/findPassword")
+    public String memberFindPassword() {
+        return "members/memberFindPassword";
+    }
+
+    /**
+     * 비밀번호 찾기 -임시 비밀번호로 변경-
+     */
+    @PostMapping("/members/sendPassword")
+    public String sendPassword(@RequestParam("userEmail") String userEmail, Model model) {
+        //임시 비밀번호 생성
+        Member member = memberService.memberFindOneEmail(userEmail);
+        String tmpPassword = memberService.getTmpPassword();
+        // 임시 비밀번호 저장
+        memberService.passwordUpdate(member, tmpPassword);
+        
+        // 메일 생성 및 전송
+        Mail mail = mailService.createMail(tmpPassword, userEmail);
+        mailService.sendMail(mail);
+        
+        System.out.println("임시 비밀번호 메일 전송 완료");
+
+        model.addAttribute("loginForm", new LoginForm());
+        return "members/loginForm";
+    }
+
+    /**
+     * 이메일 존재하는지 확인
+     **/
+    @GetMapping("/members/checkEmail")
+    public boolean checkEmail(@RequestParam("userEmail") String userEmail) {
+        System.out.println("이메일존재하는지확인");
+        return memberService.checkEmail(userEmail);
     }
 }

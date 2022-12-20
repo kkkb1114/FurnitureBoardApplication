@@ -1,13 +1,21 @@
 package com.example.FurnitureBoardApplication.service;
 
 import com.example.FurnitureBoardApplication.controller.form.BoardForm;
-import com.example.FurnitureBoardApplication.dto.Board;
+import com.example.FurnitureBoardApplication.dto.BoardListDto;
+import com.example.FurnitureBoardApplication.entity.Board;
 import com.example.FurnitureBoardApplication.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,13 +48,10 @@ public class BoardService {
         board.setCreatedDate(board.getCreatedDateTime());
     }
 
-    /**
-     * 검색 기능은 Querydsl강의를 들은 후에 만드는 것이 좋아 보인다.
-     */
-    /*// 게시글 제목 기준 검색
+    // 게시글 전체 기준 검색
     @Transactional(readOnly = true)
-    public List<Board> findTitleBoard(String title){
-        return boardRepository.findTitleBoard(title);
+    public List<Board> findTotalBoard(String searchData){
+        return boardRepository.findTotalBoard(searchData);
     }
 
     // 게시글 작성자 기준 검색
@@ -55,11 +60,17 @@ public class BoardService {
         return boardRepository.findWriterBoard(writer);
     }
 
+    // 게시글 제목 기준 검색
+    @Transactional(readOnly = true)
+    public List<Board> findTitleBoard(String title){
+        return boardRepository.findTitleBoard(title);
+    }
+
     // 게시글 내용 기준 검색
     @Transactional(readOnly = true)
     public List<Board> findContentBoard(String content){
         return boardRepository.findContentBoard(content);
-    }*/
+    }
 
     // 게시글 수정
     public void updateBoard(Long id, BoardForm boardForm){
@@ -78,4 +89,7 @@ public class BoardService {
         Board board = boardRepository.findOneBoard(id);
         board.addViewsBoard();
     }
+
+
+    /** 페이징 **/
 }
