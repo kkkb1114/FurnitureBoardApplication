@@ -1,7 +1,7 @@
 package com.example.FurnitureBoardApplication.repository;
 
 import com.example.FurnitureBoardApplication.entity.Comment;
-import com.example.FurnitureBoardApplication.dto.QComment;
+import com.example.FurnitureBoardApplication.entity.QComment;
 import com.querydsl.jpa.impl.JPAQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

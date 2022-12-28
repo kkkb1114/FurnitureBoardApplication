@@ -1,7 +1,7 @@
 package com.example.FurnitureBoardApplication.service;
 
 import com.example.FurnitureBoardApplication.controller.form.BoardForm;
-import com.example.FurnitureBoardApplication.dto.BoardListDto;
+import com.example.FurnitureBoardApplication.dto.BoardDto;
 import com.example.FurnitureBoardApplication.entity.Board;
 import com.example.FurnitureBoardApplication.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +32,7 @@ public class BoardService {
     // 게시글 전부 조회
     @Transactional(readOnly = true)
     public List<Board> findAllBoard(){
+        //return boardRepository.findAllBoardPaging(pageable);
         return boardRepository.findAllBoard();
     }
 
@@ -92,4 +93,9 @@ public class BoardService {
 
 
     /** 페이징 **/
+    public Page<BoardDto> getBoardList(Pageable pageable){
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() -1);
+        pageable = PageRequest.of(page, 10);
+        return boardRepository.selectBoardList("", pageable);
+    }
 }

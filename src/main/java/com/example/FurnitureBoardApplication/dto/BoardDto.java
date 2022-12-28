@@ -3,8 +3,9 @@ package com.example.FurnitureBoardApplication.dto;
 import com.example.FurnitureBoardApplication.entity.Board;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 public class BoardDto {
 

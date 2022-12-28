@@ -1,10 +1,14 @@
 package com.example.FurnitureBoardApplication.controller;
 
+import com.example.FurnitureBoardApplication.dto.BoardDto;
 import com.example.FurnitureBoardApplication.entity.Board;
 import com.example.FurnitureBoardApplication.entity.Member;
 import com.example.FurnitureBoardApplication.service.BoardService;
 import com.example.FurnitureBoardApplication.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -37,7 +41,12 @@ public class HomeController {
      */
     @GetMapping("/")
     public String home(@CookieValue(name = "AutoLogin", required = false) String memberId, Model model,
-                       HttpServletRequest request){
+                       HttpServletRequest request, String searchVal, Pageable pageable){
+        /*Member member1 = memberService.findOneId(8L);
+        for (int i=100; i<200; i++){
+            Board board = Board.createBoard("제목"+i, member1.getNickName(), "내용"+i, 0L, 0.0, member1);
+            boardService.save_board(board);
+        }*/
         if (memberId != null){
             Member member = memberService.findOneId(Long.valueOf(memberId));
             HttpSession httpSession = request.getSession();
@@ -45,9 +54,21 @@ public class HomeController {
             httpSession.setAttribute("memberName", member.getNickName()); // memberId 세션 저장
             return "home/home";
         }
-        List<Board> boardList = boardService.findAllBoard();
+        Page<BoardDto> results = boardService.getBoardList(pageable);
+        model.addAttribute("boardList", results);
+        model.addAttribute("maxPage", results.getSize());
+        pageModelPut(results, model);
 
-        model.addAttribute("boardList", boardList);
+
+
+        //List<BoardDto> boardList = boardService.findAllBoard();
+        //model.addAttribute("boardList", boardList);
         return "home/home";
+    }
+
+    private void pageModelPut(Page<BoardDto> results, Model model){
+        model.addAttribute("totalCount", results.getTotalElements());
+        model.addAttribute("size",  results.getPageable().getPageSize());
+        model.addAttribute("number",  results.getPageable().getPageNumber());
     }
 }
