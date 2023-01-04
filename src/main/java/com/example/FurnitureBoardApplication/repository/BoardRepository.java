@@ -30,12 +30,12 @@ public class BoardRepository {
 
     // 게시글 등록
     public Long save_board(Board board) {
-        if (board.getId() == null) {
+        if (board.getBoardId() == null) {
             entityManager.persist(board);
         } else {
             entityManager.merge(board);
         }
-        return board.getId();
+        return board.getBoardId();
     }
 
     // 게시글 전부 조회
@@ -43,7 +43,7 @@ public class BoardRepository {
         JPAQuery<Board> query = new JPAQuery<>(entityManager);
         QBoard qBoard = new QBoard("b");
         return query.from(qBoard)
-                .orderBy(qBoard.id.desc())
+                .orderBy(qBoard.boardId.desc())
                 .fetch();
     }
 
@@ -64,7 +64,7 @@ public class BoardRepository {
                 .where(qBoard.writer.contains(searchData)
                         .or(qBoard.title.contains(searchData))
                         .or(qBoard.content.contains(searchData)))
-                .orderBy(qBoard.id.desc())
+                .orderBy(qBoard.boardId.desc())
                 .fetch();
     }
 
@@ -74,7 +74,7 @@ public class BoardRepository {
         QBoard qBoard = new QBoard("b");
         return query.from(qBoard)
                 .where(qBoard.writer.contains(writer))
-                .orderBy(qBoard.id.desc())
+                .orderBy(qBoard.boardId.desc())
                 .fetch();
     }
 
@@ -84,7 +84,7 @@ public class BoardRepository {
         QBoard qBoard = new QBoard("b");
         return query.from(qBoard)
                 .where(qBoard.title.contains(title))
-                .orderBy(qBoard.id.desc())
+                .orderBy(qBoard.boardId.desc())
                 .fetch();
     }
 
@@ -94,7 +94,7 @@ public class BoardRepository {
         QBoard qBoard = new QBoard("b");
         return query.from(qBoard)
                 .where(qBoard.content.contains(content))
-                .orderBy(qBoard.id.desc())
+                .orderBy(qBoard.boardId.desc())
                 .fetch();
     }
 
@@ -112,7 +112,7 @@ public class BoardRepository {
                 .from(board)
                 .leftJoin(board.member, member)
                 .where(board.hidden.eq((double) 0))
-                .orderBy(board.id.desc())
+                .orderBy(board.boardId.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();

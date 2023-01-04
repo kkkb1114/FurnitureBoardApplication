@@ -92,7 +92,7 @@ public class MemberController {
             if (autoLogin) {
                 // AutoLogin 세션 저장(이건 세션으로 하면 일반 로그인과 다를바가 없어 !!!!쿠키로 만들어야 할 듯 하다!!!!)
                 //httpSession.setAttribute("AutoLogin", "AutoLogin");
-                Cookie cookie = new Cookie("AutoLogin", String.valueOf(member.getId()));
+                Cookie cookie = new Cookie("AutoLogin", String.valueOf(member.getMemberId()));
                 cookie.setDomain("localhost");
                 cookie.setPath("/");
                 cookie.setMaxAge(60 * 60);
@@ -100,7 +100,7 @@ public class MemberController {
                 response.addCookie(cookie);
             }
 
-            httpSession.setAttribute("memberId", member.getId()); // memberId 세션 저장
+            httpSession.setAttribute("memberId", member.getMemberId()); // memberId 세션 저장
             httpSession.setAttribute("memberName", member.getNickName()); // memberId 세션 저장
             return "redirect:/";
         } else {

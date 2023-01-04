@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor
 public class BoardDto {
-
     private Long boardId;
     private String title;
     private String writer;
@@ -17,7 +16,7 @@ public class BoardDto {
     private String createdDate;
 
     public BoardDto(Board board){
-        this.boardId = board.getId();
+        this.boardId = board.getBoardId();
         this.title = board.getTitle();
         this.writer = board.getWriter();
         this.content = board.getContent();

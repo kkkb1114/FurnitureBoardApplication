@@ -69,7 +69,7 @@ public class BoardController {
         Board board = boardService.findOneBoard(id);
         List<Comment> commentList = commentService.find_Comment(id);
         if (board.getHidden() == 0) {
-            boardService.addViewsBoard(board.getId()); // 조회수 증가
+            boardService.addViewsBoard(board.getBoardId()); // 조회수 증가
             model.addAttribute("board", board);
             model.addAttribute("commentList", commentList);
             model.addAttribute("CommentForm", new CommentForm());
@@ -90,7 +90,7 @@ public class BoardController {
         boardForm.setContent(board.getContent());
         boardForm.setWriter(board.getWriter());
 
-        model.addAttribute("boardUpdate_id", String.valueOf(board.getId()));
+        model.addAttribute("boardUpdate_id", String.valueOf(board.getBoardId()));
         return "boards/boardUpdateForm";
     }
 

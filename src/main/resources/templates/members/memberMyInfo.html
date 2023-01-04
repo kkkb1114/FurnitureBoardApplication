@@ -19,10 +19,10 @@
             <label th:text="'주소: ' + *{address} + *{detailedAddress}" class="form-label"></label>
         </div>
         <div class="card-body">
-            <!--<a th:href="@{/members/nickNameUpdate/{id}(id = *{id})}" role="button" class="btn btn-primary bi bi-pencil-square">닉네임 변경</a>-->
-            <a th:href="@{/members/passwordUpdate/{id}(id = *{id})}" role="button" class="btn btn-primary bi bi-pencil-square">비밀번호 변경</a>
+            <!--<a th:href="@{/members/nickNameUpdate/{id}(id = *{memberId})}" role="button" class="btn btn-primary bi bi-pencil-square">닉네임 변경</a>-->
+            <a th:href="@{/members/passwordUpdate/{id}(id = *{memberId})}" role="button" class="btn btn-primary bi bi-pencil-square">비밀번호 변경</a>
             <a href="/members/logout" role="button" class="btn btn-danger bi bi-trash">로그아웃</a>
-            <a th:href="@{/members/delete/{id}(id = *{id})}" role="button" class="btn btn-danger bi bi-trash">회원 탈퇴</a>
+            <a th:href="@{/members/delete/{id}(id = *{memberId})}" role="button" class="btn btn-danger bi bi-trash">회원 탈퇴</a>
         </div>
     </form>
 </div>

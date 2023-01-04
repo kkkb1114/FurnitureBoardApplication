@@ -12,8 +12,7 @@ public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "member_id")
-    private Long id; // pk
+    private Long memberId; // pk
     private String email; // 계정 메일
     private String password; // 비밀번호
     private String nickName; // 닉네임

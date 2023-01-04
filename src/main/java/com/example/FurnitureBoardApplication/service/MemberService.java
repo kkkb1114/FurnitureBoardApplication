@@ -19,7 +19,7 @@ public class MemberService {
         duplicateNicknameValidation(member); // 닉네임 중복 확인
         duplicateEmailValidation(member); // 이메일 중복 확인
         memberRepository.save(member);
-        return member.getId();
+        return member.getMemberId();
     }
     // 회원 이름 중복 확인
     @Transactional(readOnly = true)

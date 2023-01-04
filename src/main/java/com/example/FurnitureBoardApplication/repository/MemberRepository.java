@@ -22,12 +22,12 @@ public class MemberRepository {
     // 회원 정보 저장
     // 들어온 member 객체의 id값이 null이면 회원가입, null이 아니면 회원 정보 수정
     public Long save(Member member){
-        if (member.getId() == null){
+        if (member.getMemberId() == null){
             entityManager.persist(member);
         }else {
             entityManager.merge(member);
         }
-        return member.getId();
+        return member.getMemberId();
     }
 
     // id(pk) 기준으로 회원 찾기

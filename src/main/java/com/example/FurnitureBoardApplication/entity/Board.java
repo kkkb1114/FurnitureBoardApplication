@@ -16,8 +16,7 @@ public class Board extends BaseTimeEntity{
 
     @Id
     @GeneratedValue
-    @Column(name = "board_id")
-    private Long id; // pk
+    private Long boardId; // pk
     private String title; // 제목
     private String writer; // 작성자
     private String content; // 내용

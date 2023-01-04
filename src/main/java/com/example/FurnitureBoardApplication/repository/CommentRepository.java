@@ -32,7 +32,7 @@ public class CommentRepository {
         JPAQuery<Comment> query = new JPAQuery<>(entityManager);
         QComment qComment = new QComment("c");
         return query.from(qComment)
-                .where(qComment.board.id.eq(boardId))
+                .where(qComment.board.boardId.eq(boardId))
                 .orderBy(qComment.id.desc())
                 .fetch();
     }

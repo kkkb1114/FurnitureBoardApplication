@@ -50,7 +50,7 @@ public class HomeController {
         if (memberId != null){
             Member member = memberService.findOneId(Long.valueOf(memberId));
             HttpSession httpSession = request.getSession();
-            httpSession.setAttribute("memberId", member.getId()); // memberId 세션 저장
+            httpSession.setAttribute("memberId", member.getMemberId()); // memberId 세션 저장
             httpSession.setAttribute("memberName", member.getNickName()); // memberId 세션 저장
             return "home/home";
         }
