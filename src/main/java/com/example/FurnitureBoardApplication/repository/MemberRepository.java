@@ -1,12 +1,17 @@
 package com.example.FurnitureBoardApplication.repository;
 
 import com.example.FurnitureBoardApplication.entity.Member;
+import com.example.FurnitureBoardApplication.entity.QMember;
+import com.querydsl.core.QueryResults;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+
+import static com.example.FurnitureBoardApplication.entity.QMember.member;
 
 /**
  * 1. @Repository: 해당 클래스를 스프링이 Repository 클래스로 인식 및 스프링 빈에 등록시킨다.
@@ -18,6 +23,7 @@ import java.util.List;
 public class MemberRepository {
     @PersistenceContext
     private final EntityManager entityManager;
+    private JPAQueryFactory jpaQueryFactory;
 
     // 회원 정보 저장
     // 들어온 member 객체의 id값이 null이면 회원가입, null이 아니면 회원 정보 수정
@@ -62,19 +68,22 @@ public class MemberRepository {
         return member;
     }
 
-    // 입력 받은 email과 동일한 회원 전부 List로 반환
     public Member memberLogin(String email, String password){
+        jpaQueryFactory = new JPAQueryFactory(entityManager);
         System.out.println("memberLogin: "+email+password);
-        Member member = null;
+        Member memberQueryResults = null;
         try {
-            member = entityManager.createQuery("select m from Member m " +
-                    "where m.email = :email and m.password = :password and m.hidden = 0", Member.class)
-                    .setParameter("email", email)
-                    .setParameter("password", password)
-                    .getSingleResult();
+            memberQueryResults = jpaQueryFactory
+                    .select(new QMember(member))
+                    .from(member)
+                    .where(member.hidden.eq((double) 0)
+                            .and (member.email.eq(email))
+                            .and (member.password.eq(password)))
+                    .fetchOne();
+            System.out.println("memberLogin11: "+memberQueryResults);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return member;
+        return memberQueryResults;
     }
 }

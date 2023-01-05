@@ -7,6 +7,7 @@ import com.example.FurnitureBoardApplication.entity.Mail;
 import com.example.FurnitureBoardApplication.entity.Member;
 import com.example.FurnitureBoardApplication.service.MailService;
 import com.example.FurnitureBoardApplication.service.MemberService;
+import com.example.FurnitureBoardApplication.service.email.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,7 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberService;
     private final MailService mailService;
+    private final EmailService emailService;
 
     /**
      * 회원 가입 페이지 이동
@@ -134,7 +136,7 @@ public class MemberController {
      */
     @PostMapping("/members/passwordUpdate/{id}")
     public String passwordUpdate(@PathVariable Long id, @Valid PasswordUpdateForm passwordUpdateForm, BindingResult bindingResult,
-                                 HttpServletRequest request) {
+                                 HttpServletRequest request, Model model) {
         if (bindingResult.hasErrors()) {
             return "members/passwordUpdateForm";
         }
@@ -155,6 +157,8 @@ public class MemberController {
                 httpSession.removeAttribute("AutoLogin");
 
                 memberService.passwordUpdate(member, UpdatePasswordConfirm);
+
+                model.addAttribute("loginForm", new LoginForm());
                 return "members/loginForm";
             }
         } else {
