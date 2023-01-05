@@ -29,13 +29,15 @@
                     </div>-->
                 </ul>
                 <form class="d-flex" role="search" action="/search/Board">
-                    <select id="searchTitle" name="searchTitle">
+                    <select style="margin: .0em .5em;" class="btn btn-outline-dark" id="searchTitle"
+                            name="searchTitle">
                         <option value="전체" th:selected="${searchTitle} == '전체'">전체</option>
                         <option value="작성자" th:selected="${searchTitle} == '작성자'">작성자</option>
                         <option value="제목" th:selected="${searchTitle} == '제목'">제목</option>
                         <option value="내용" th:selected="${searchTitle} == '내용'">내용</option>
                     </select>
-                    <input th:value="${searchData}" name="searchData" class="form-control me-2" type="search" placeholder="검색어 입력" aria-label="Search">
+                    <input th:value="${searchData}" name="searchData" class="form-control me-2" type="search"
+                           placeholder="검색어 입력" aria-label="Search">
                     <button style="white-space:nowrap;" class="btn btn-outline-success" type="submit">검색</button>
                 </form>
             </div>
