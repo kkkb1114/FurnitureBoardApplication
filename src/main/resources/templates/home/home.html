@@ -12,8 +12,8 @@
             <thead class="table-light">
             <tr>
                 <th width="10%" scope="col">번호</th>
-                <th width="20%" scope="col">작성자</th>
                 <th width="30%" scope="col">제목</th>
+                <th width="20%" scope="col">작성자</th>
                 <th width="10%" scope="col">조회수</th>
                 <th width="20%" scope="col">작성일</th>
             </tr>
@@ -21,16 +21,17 @@
             <tbody>
             <tr th:each="board : ${boardList}">
                 <td width="10%" th:text="${board.boardId}"></td>
-                <td width="20%" th:text="${board.writer}"></td>
-                <td width="40%"><a th:text="${board.title}" th:href="@{/boards/detail/{id}(id = ${board.boardId})}"></a>
+                <td width="50%"><a th:text="${board.title}" th:href="@{/boards/detail/{id}(id = ${board.boardId})}"></a>
                 </td>
+                <td width="10%" th:text="${board.writer}"></td>
                 <td width="10%" th:text="${board.views}"></td>
                 <td width="20%" th:text="${board.createdDate}"></td>
             </tr>
             </tbody>
         </table>
     </div>
-    <nav class="container d-flex align-items-center justify-content-center" aria-label="Page navigation example"
+    <nav th:if="${not #strings.isEmpty(boardList)}" class="container d-flex align-items-center justify-content-center"
+         aria-label="Page navigation example"
          th:with="start=${(boardList.number/maxPage)*maxPage + 1},
                   end=(${(boardList.totalPages == 0) ? 1 : (start + (maxPage - 1) < boardList.totalPages ? start + (maxPage - 1) : boardList.totalPages)})">
         <ul class="pagination justify-content-center">
@@ -80,6 +81,7 @@
 
 
 
+
     </script>
 </th:block>
 </body>
@@ -91,6 +93,7 @@
     .board-table td{
   text-align: center;
 }
+
 
 
 

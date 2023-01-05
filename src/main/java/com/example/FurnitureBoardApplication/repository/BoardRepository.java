@@ -101,21 +101,18 @@ public class BoardRepository {
     /**
      * 페이징
      **/
-    public Page<BoardDto> selectBoardList(String searchVal, Pageable pageable) {
-        return getBoardMemberDtos(searchVal, pageable);
+    public Page<BoardDto> selectBoardList(String searchTitle, String search, Pageable pageable) {
+        return getBoardMemberDtos(searchTitle, search, pageable);
     }
 
-    private PageImpl<BoardDto> getBoardMemberDtos(String search, Pageable pageable) {
+    private PageImpl<BoardDto> getBoardMemberDtos(String searchTitle, String search, Pageable pageable) {
         jpaQueryFactory = new JPAQueryFactory(entityManager);
-        QueryResults<Board> content = jpaQueryFactory
-                .select(new QBoard(board))
-                .from(board)
-                .leftJoin(board.member, member)
-                .where(board.hidden.eq((double) 0))
-                .orderBy(board.boardId.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetchResults();
+        QueryResults<Board> content;
+        if (search.equals("null") || !search.isEmpty()){
+            content = getQueryResultList(searchTitle, search, pageable);
+        }else {
+            content = getQueryResultList("null", "null", pageable);
+        }
 
         List<BoardDto> boardDtoList = BoardToBoardDto(content.getResults());
         long total = content.getTotal();
@@ -127,5 +124,69 @@ public class BoardRepository {
         return boardList.stream()
                 .map(BoardDto::new)
                 .collect(Collectors.toList());
+    }
+
+    public QueryResults<Board> getQueryResultList(String searchTitle, String search, Pageable pageable){
+
+        QueryResults<Board> content = null;
+
+        if (searchTitle.equals("전체")){
+            content = jpaQueryFactory
+                    .select(new QBoard(board))
+                    .from(board)
+                    .leftJoin(board.member, member)
+                    .where(board.hidden.eq((double) 0)
+                            .and (board.title.contains(search))
+                            .or (board.writer.contains(search))
+                            .or (board.content.contains(search)))
+                    .orderBy(board.boardId.desc())
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize())
+                    .fetchResults();
+        }else if (searchTitle.equals("작성자")){
+            content = jpaQueryFactory
+                    .select(new QBoard(board))
+                    .from(board)
+                    .leftJoin(board.member, member)
+                    .where(board.hidden.eq((double) 0)
+                            .and (board.writer.contains(search)))
+                    .orderBy(board.boardId.desc())
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize())
+                    .fetchResults();
+        }else if (searchTitle.equals("제목")){
+            content = jpaQueryFactory
+                    .select(new QBoard(board))
+                    .from(board)
+                    .leftJoin(board.member, member)
+                    .where(board.hidden.eq((double) 0)
+                            .and (board.title.contains(search)))
+                    .orderBy(board.boardId.desc())
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize())
+                    .fetchResults();
+        }else if (searchTitle.equals("내용")){
+            content = jpaQueryFactory
+                    .select(new QBoard(board))
+                    .from(board)
+                    .leftJoin(board.member, member)
+                    .where(board.hidden.eq((double) 0)
+                            .and (board.content.contains(search)))
+                    .orderBy(board.boardId.desc())
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize())
+                    .fetchResults();
+        }else if (search.equals("null") || search.isEmpty()){
+            content = jpaQueryFactory
+                    .select(new QBoard(board))
+                    .from(board)
+                    .leftJoin(board.member, member)
+                    .where(board.hidden.eq((double) 0))
+                    .orderBy(board.boardId.desc())
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize())
+                    .fetchResults();
+        }
+        return content;
     }
 }

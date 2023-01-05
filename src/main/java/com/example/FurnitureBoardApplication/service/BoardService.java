@@ -93,9 +93,9 @@ public class BoardService {
 
 
     /** 페이징 **/
-    public Page<BoardDto> getBoardList(Pageable pageable){
+    public Page<BoardDto> getBoardDtoList(String searchTitle, String search, Pageable pageable){
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() -1);
         pageable = PageRequest.of(page, 10);
-        return boardRepository.selectBoardList("", pageable);
+        return boardRepository.selectBoardList(searchTitle, search, pageable);
     }
 }
